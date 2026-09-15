@@ -1,0 +1,14 @@
+{
+  "name": "knowledge-debugger",
+  "version": "1.0.0",
+  "description": "Adaptive knowledge-gap detection and personalized learning system",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Aastika",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
