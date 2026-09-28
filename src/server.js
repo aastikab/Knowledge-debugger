@@ -22,7 +22,7 @@ app.get('/', (req, res) => {
 app.get('/questions', async (req, res) => {
   try {
     const result = await pool.query(
-      `SELECT id, concept_id, question_text, expected_answer, difficulty, created_at
+      `SELECT id, concept_id, question_text, expected_answer, difficulty
        FROM questions
        ORDER BY id`
     );
@@ -47,7 +47,7 @@ app.get('/questions/:id', async (req, res) => {
 
   try {
     const result = await pool.query(
-      `SELECT id, concept_id, question_text, expected_answer, difficulty, created_at
+      `SELECT id, concept_id, question_text, expected_answer, difficulty
        FROM questions
        WHERE id = $1`,
       [questionId]
@@ -124,7 +124,7 @@ app.post('/attempts', async (req, res) => {
     const result = await pool.query(
       `INSERT INTO attempts (learner_id, question_id, submitted_answer, is_correct)
        VALUES ($1, $2, $3, $4)
-       RETURNING id, learner_id, question_id, submitted_answer, is_correct, created_at`,
+       RETURNING id, learner_id, question_id, submitted_answer, is_correct`,
       [learnerId.trim(), parsedQuestionId, answer.trim(), correct]
     );
 
@@ -151,10 +151,10 @@ app.get('/attempts', async (req, res) => {
 
   try {
     const result = await pool.query(
-      `SELECT id, learner_id, question_id, submitted_answer, is_correct, created_at
+      `SELECT id, learner_id, question_id, submitted_answer, is_correct
        FROM attempts
        WHERE learner_id = $1
-       ORDER BY created_at`,
+       ORDER BY id`,
       [learnerId.trim()]
     );
 
