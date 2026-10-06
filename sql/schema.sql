@@ -1,7 +1,9 @@
--- Knowledge Debugger — Progress Report 2 schema
--- Creates the three tables needed for concepts, questions, and attempts.
+-- Knowledge Debugger — database schema
+-- Progress Report 2: concepts, questions, attempts
+-- Week 7: analyses (LLM written-answer analysis)
 
 -- Drop tables in reverse dependency order if they already exist
+DROP TABLE IF EXISTS analyses;
 DROP TABLE IF EXISTS attempts;
 DROP TABLE IF EXISTS questions;
 DROP TABLE IF EXISTS concepts;
@@ -33,4 +35,18 @@ CREATE TABLE attempts (
   submitted_answer TEXT NOT NULL,
   is_correct       BOOLEAN NOT NULL,
   created_at       TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+-- 4. analyses: LLM analysis of a written student answer (Week 7)
+-- Separate from attempts so we can compare baseline vs LLM models
+CREATE TABLE analyses (
+  id                    SERIAL PRIMARY KEY,
+  learner_id            TEXT NOT NULL,
+  question_id           INTEGER NOT NULL REFERENCES questions(id),
+  submitted_answer      TEXT NOT NULL,
+  understanding_summary TEXT NOT NULL,
+  knowledge_gap         TEXT,
+  misconception         TEXT,
+  llm_seems_correct     BOOLEAN NOT NULL,
+  created_at            TIMESTAMP NOT NULL DEFAULT NOW()
 );

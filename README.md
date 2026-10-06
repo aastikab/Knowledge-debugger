@@ -4,12 +4,10 @@ Adaptive-learning research prototype that studies how student knowledge gaps can
 
 ## Research Objective
 
-This project will eventually compare two learner models:
+This project compares two learner models:
 
-1. **Baseline model (Progress Report 2 — implemented now):** simple correctness-based concept mastery using correct/incorrect answers.
-2. **Future LLM-assisted model (FUTURE WORK — not implemented yet):** analyze written explanations for knowledge gaps and misconceptions.
-
-Progress Report 2 only builds the database foundation, question/attempt APIs, and the simple baseline mastery calculation.
+1. **Baseline model (Progress Report 2):** simple correctness-based concept mastery using correct/incorrect answers.
+2. **LLM-assisted model (Week 7 — midterm work):** analyze written explanations for possible knowledge gaps and misconceptions.
 
 ## Technologies Currently Used
 
@@ -19,58 +17,53 @@ Progress Report 2 only builds the database foundation, question/attempt APIs, an
 - PostgreSQL
 - `pg` (PostgreSQL client for Node.js)
 - `dotenv` (loads environment variables from `.env`)
+- `@google/generative-ai` (Week 7 Gemini LLM API client)
 
 ## Project Structure
 
 ```
 Knowledge-debugger/
-├── .env.example          # Example database settings (no real password)
-├── .gitignore            # Ignores node_modules/ and .env
+├── .env.example          # Example settings (no real secrets)
+├── .gitignore
 ├── package.json
 ├── README.md
 ├── sql/
-│   ├── schema.sql        # Creates concepts, questions, attempts tables
-│   └── seed.sql          # Sample concepts and questions
+│   ├── schema.sql        # Full schema (concepts, questions, attempts, analyses)
+│   ├── seed.sql          # Sample concepts and questions
+│   └── week7.sql         # Adds analyses table to an existing PR2 database
 └── src/
     ├── db.js             # PostgreSQL connection pool
+    ├── llm.js            # Gemini written-answer analysis helper
     └── server.js         # Express routes / API
 ```
 
 ## Database Tables
 
 ### 1. `concepts`
-Stores the learning topics (for example: HTTP, APIs, Authentication).
-
-| Column        | Purpose                          |
-|---------------|----------------------------------|
-| id            | Primary key                      |
-| name          | Concept name                     |
-| description   | Short description of the concept |
-| created_at    | When the row was created         |
+Learning topics (HTTP, APIs, Authentication, etc.).
 
 ### 2. `questions`
-Stores quiz questions. Each question belongs to one concept (`concept_id` foreign key).
+Quiz questions. Each question belongs to one concept.
 
-| Column          | Purpose                              |
-|-----------------|--------------------------------------|
-| id              | Primary key                          |
-| concept_id      | Foreign key → concepts(id)           |
-| question_text   | The question shown to the learner    |
-| expected_answer | Reference answer (for later use)     |
-| difficulty      | easy / medium / etc.                 |
-| created_at      | When the row was created             |
+### 3. `attempts` (baseline model)
+Stores each learner’s submitted answer and a client-provided correct/incorrect flag.
 
-### 3. `attempts`
-Stores each learner's submitted answer. Each attempt belongs to one question (`question_id` foreign key).
+### 4. `analyses` (Week 7 LLM model)
+Stores LLM analysis of a written answer:
 
-| Column           | Purpose                                    |
-|------------------|--------------------------------------------|
-| id               | Primary key                                |
-| learner_id       | Simple text ID (no auth in this milestone) |
-| question_id      | Foreign key → questions(id)                |
-| submitted_answer | What the learner wrote                     |
-| is_correct       | true / false (provided by the client)      |
-| created_at       | When the attempt was recorded              |
+| Column                  | Purpose                                      |
+|-------------------------|----------------------------------------------|
+| id                      | Primary key                                  |
+| learner_id              | Simple text learner ID                       |
+| question_id             | Foreign key → questions(id)                  |
+| submitted_answer        | Written student response                     |
+| understanding_summary   | Short LLM summary of understanding           |
+| knowledge_gap           | Possible missing idea (or null)              |
+| misconception           | Possible incorrect belief (or null)          |
+| llm_seems_correct       | Whether the LLM thinks the answer is mostly correct |
+| created_at              | When the analysis was stored                 |
+
+`attempts` and `analyses` are kept separate so the research can compare the baseline model with the LLM model.
 
 ## How to Install Dependencies
 
@@ -78,17 +71,13 @@ Stores each learner's submitted answer. Each attempt belongs to one question (`q
 npm install
 ```
 
-This installs Express, `pg`, and `dotenv`.
-
 ## How to Configure `.env`
-
-1. Copy the example file:
 
 ```bash
 cp .env.example .env
 ```
 
-2. Edit `.env` and replace the placeholders with your local PostgreSQL values:
+Then set:
 
 ```
 DB_HOST=localhost
@@ -96,56 +85,36 @@ DB_PORT=5432
 DB_NAME=knowledge_debugger
 DB_USER=your_postgres_username
 DB_PASSWORD=your_postgres_password
+GEMINI_API_KEY=your_gemini_api_key_here
 ```
 
-Never commit `.env` (it is listed in `.gitignore`).
+Never commit `.env`.
 
-## How to Create / Configure the PostgreSQL Database
+## Database Setup
 
-1. Make sure PostgreSQL is installed and running on your machine.
-2. Create the database (example using `psql`):
+Create the database (once):
 
 ```bash
-psql -U postgres
+psql -U your_postgres_username -d postgres -c "CREATE DATABASE knowledge_debugger;"
 ```
 
-Inside `psql`:
-
-```sql
-CREATE DATABASE knowledge_debugger;
-\q
-```
-
-3. Put your real username and password into `.env`.
-
-## How to Run `schema.sql`
-
-From the project root:
+### Fresh install
 
 ```bash
 psql -U your_postgres_username -d knowledge_debugger -f sql/schema.sql
-```
-
-This creates the `concepts`, `questions`, and `attempts` tables.
-
-## How to Run `seed.sql`
-
-```bash
 psql -U your_postgres_username -d knowledge_debugger -f sql/seed.sql
 ```
 
-This inserts 5 concepts and 10 sample questions (2 per concept).
+### Existing Progress Report 2 database (recommended for Week 7)
+
+```bash
+psql -U your_postgres_username -d knowledge_debugger -f sql/week7.sql
+```
 
 ## How to Start the Server
 
 ```bash
 node src/server.js
-```
-
-You should see:
-
-```
-Server running on http://localhost:3000
 ```
 
 ## Current API Endpoints
@@ -155,33 +124,21 @@ Server running on http://localhost:3000
 | GET    | `/`                         | Confirms the backend is running                  |
 | GET    | `/questions`                | Returns all questions from PostgreSQL            |
 | GET    | `/questions/:id`            | Returns one question by ID                       |
-| POST   | `/attempts`                 | Records a student attempt                        |
-| GET    | `/attempts?learnerId=...`   | Returns attempt history for a learner            |
-| GET    | `/progress/:learnerId`      | Baseline concept mastery for a learner           |
+| POST   | `/attempts`                 | Records a baseline student attempt               |
+| GET    | `/attempts?learnerId=...`   | Returns baseline attempt history                 |
+| GET    | `/progress/:learnerId`      | Baseline concept mastery                         |
+| POST   | `/analyze`                  | Week 7: LLM analysis of a written answer         |
+| GET    | `/analyses?learnerId=...`   | Week 7: LLM analysis history                     |
 
 ## Example Requests
 
-### 1. Confirm the server is running
+### Baseline (Progress Report 2)
 
 ```bash
 curl http://localhost:3000/
-```
-
-### 2. Get all questions
-
-```bash
 curl http://localhost:3000/questions
-```
-
-### 3. Get one question
-
-```bash
 curl http://localhost:3000/questions/1
-```
 
-### 4. Record an attempt
-
-```bash
 curl -X POST http://localhost:3000/attempts \
   -H "Content-Type: application/json" \
   -d '{
@@ -190,71 +147,74 @@ curl -X POST http://localhost:3000/attempts \
     "answer": "HyperText Transfer Protocol.",
     "correct": true
   }'
-```
 
-### 5. Get attempt history
-
-```bash
 curl "http://localhost:3000/attempts?learnerId=demo-student"
+curl http://localhost:3000/progress/demo-student
 ```
 
-### 6. Get baseline mastery progress
+### Week 7 LLM analysis
 
 ```bash
-curl http://localhost:3000/progress/demo-student
+curl -X POST http://localhost:3000/analyze \
+  -H "Content-Type: application/json" \
+  -d '{
+    "learnerId": "demo-student",
+    "questionId": 3,
+    "answer": "HTTP is just a programming language for websites."
+  }'
+
+curl "http://localhost:3000/analyses?learnerId=demo-student"
+```
+
+Example `/analyze` response shape:
+
+```json
+{
+  "id": 1,
+  "learnerId": "demo-student",
+  "questionId": 3,
+  "answer": "HTTP is just a programming language for websites.",
+  "concept": "HTTP",
+  "understandingSummary": "The student mentions websites but confuses what HTTP is.",
+  "knowledgeGap": "Does not know that HTTP is a transfer protocol.",
+  "misconception": "Believes HTTP is a programming language.",
+  "llmSeemsCorrect": false
+}
 ```
 
 ## Baseline Mastery Calculation
 
-For every concept the learner has attempted:
+`masteryPercentage = (correct attempts / total attempts) * 100`
 
-- **total attempts** = number of attempts linked to that concept
-- **correct attempts** = attempts where `is_correct = true`
-- **incorrect attempts** = attempts where `is_correct = false`
-- **mastery percentage** = `(correct attempts / total attempts) * 100`
+This remains the simple research baseline.
 
-This is intentionally simple and interpretable. It is the research **baseline** model.
-
-Example response:
-
-```json
-{
-  "learnerId": "demo-student",
-  "concepts": [
-    {
-      "conceptId": 2,
-      "concept": "HTTP",
-      "attempts": 4,
-      "correct": 3,
-      "incorrect": 1,
-      "masteryPercentage": 75
-    }
-  ]
-}
-```
-
-## FUTURE WORK (Not Implemented Yet)
-
-The following belong to later progress reports and are **not** part of this codebase yet:
-
-- LLM / OpenAI integration
-- Semantic analysis of written explanations
-- Misconception detection
-- Adaptive next-question selection
-- Authentication / authorization
-- Frontend application
-- Deployment
-
-## Data Flow (Progress Report 2)
+## Week 7 LLM Flow
 
 ```
-CLIENT
-  ↓ HTTP
+CLIENT (written answer)
+  ↓ HTTP POST /analyze
 EXPRESS
-  ↓ SQL
+  ↓ load question + concept (SQL)
 POSTGRESQL
-  ↓ DATA
+  ↓ question context
+EXPRESS
+  ↓ prompt
+GEMINI API
+  ↓ JSON analysis
+EXPRESS
+  ↓ save analysis (SQL)
+POSTGRESQL
+  ↓
 EXPRESS
   ↓ JSON
 CLIENT
 ```
+
+## FUTURE WORK (Not Implemented Yet)
+
+- Adaptive next-question selection
+- Full comparison experiments / evaluation metrics
+- Authentication / authorization
+- Frontend application
+- Deployment
+- Vector databases / RAG
