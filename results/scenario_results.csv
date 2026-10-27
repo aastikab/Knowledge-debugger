@@ -1,0 +1,14 @@
+scenario,description,baselineScore,targetConcept,targetMisconception,baselineQuestion,baselineRule,baselineConceptHit,baselineProbeHit,llmQuestion,llmRule,llmConceptHit,llmProbeHit,llmReason
+S01,Hidden authn/authz confusion: every answer graded correct,100,Authorization,AUTHN_AUTHZ_CONFUSION,2,review,false,false,18,misconception-probe,true,true,Suspected misconception AUTHN_AUTHZ_CONFUSION; asking a probe question to confirm it.
+S02,Hidden 'HTTP is a language' belief inside a correct acronym,100,HTTP,HTTP_IS_LANGUAGE,2,review,false,false,13,misconception-probe,true,true,Suspected misconception HTTP_IS_LANGUAGE; asking a probe question to confirm it.
+S03,"Hidden 'server must be hardware' belief, graded correct",100,Client and Server,SERVER_IS_HARDWARE_ONLY,1,review,true,false,12,misconception-probe,true,true,Suspected misconception SERVER_IS_HARDWARE_ONLY; asking a probe question to confirm it.
+S04,Shallow API answer graded correct (no misconception),100,APIs,,2,review,false,,6,weakest-concept,true,,APIs is the weakest concept (50%).
+S05,Visible GET/POST confusion (graded wrong),80,HTTP,GET_POST_CONFUSION,3,weakest-concept,true,false,14,misconception-probe,true,true,Suspected misconception GET_POST_CONFUSION; asking a probe question to confirm it.
+S06,Visible 'API is a database' belief (graded wrong),80,APIs,API_IS_DATABASE,6,weakest-concept,true,false,15,misconception-probe,true,true,Suspected misconception API_IS_DATABASE; asking a probe question to confirm it.
+S07,Visible 'API is the UI' belief (graded wrong),80,APIs,API_IS_UI,5,weakest-concept,true,false,16,misconception-probe,true,true,Suspected misconception API_IS_UI; asking a probe question to confirm it.
+S08,Visible 'encryption is authentication' belief (graded wrong),80,Authentication,ENCRYPTION_IS_AUTHENTICATION,7,weakest-concept,true,false,17,misconception-probe,true,true,Suspected misconception ENCRYPTION_IS_AUTHENTICATION; asking a probe question to confirm it.
+S09,Visible client/server role reversal (graded wrong),80,Client and Server,CLIENT_SERVER_REVERSED,2,weakest-concept,true,false,11,misconception-probe,true,true,Suspected misconception CLIENT_SERVER_REVERSED; asking a probe question to confirm it.
+S10,Same score as S11: authorization wrong because of a misconception,80,Authorization,AUTHN_AUTHZ_CONFUSION,10,weakest-concept,true,false,18,misconception-probe,true,true,Suspected misconception AUTHN_AUTHZ_CONFUSION; asking a probe question to confirm it.
+S11,Same score as S10: authorization wrong because of no knowledge,80,Authorization,,10,weakest-concept,true,,10,weakest-concept,true,,Authorization is the weakest concept (0%).
+S12,Plain HTTP gap with no misconception,80,HTTP,,4,weakest-concept,true,,4,weakest-concept,true,,HTTP is the weakest concept (0%).
+S13,Plain foundation gap (Client and Server),80,Client and Server,,2,weakest-concept,true,,2,weakest-concept,true,,Client and Server is the weakest concept (0%).

@@ -1,0 +1,133 @@
+{
+  "generatedAt": "2026-10-27T16:58:54.102Z",
+  "mock": false,
+  "model": "gemini-3.5-flash-lite",
+  "responses": 40,
+  "runsPerResponse": 3,
+  "successfulCalls": 120,
+  "failedCalls": 0,
+  "outputWarnings": 0,
+  "baseline": {
+    "responseTypeAccuracy": 0.5,
+    "gapDetection": {
+      "n": 40,
+      "tp": 22,
+      "fp": 0,
+      "fn": 8,
+      "tn": 10,
+      "accuracy": 0.8,
+      "precision": 1,
+      "recall": 0.7333333333333333,
+      "f1": 0.846153846153846
+    },
+    "misconception": {
+      "n": 40,
+      "tp": 0,
+      "fp": 0,
+      "fn": 10,
+      "precision": null,
+      "recall": 0,
+      "f1": 0
+    },
+    "hiddenGapRecall": 0,
+    "confusion": {
+      "correct": {
+        "correct": 10,
+        "partial": 0,
+        "incorrect": 0,
+        "misconception": 0
+      },
+      "partial": {
+        "correct": 5,
+        "partial": 0,
+        "incorrect": 5,
+        "misconception": 0
+      },
+      "incorrect": {
+        "correct": 0,
+        "partial": 0,
+        "incorrect": 10,
+        "misconception": 0
+      },
+      "misconception": {
+        "correct": 3,
+        "partial": 0,
+        "incorrect": 7,
+        "misconception": 0
+      }
+    }
+  },
+  "llm": {
+    "responseTypeAccuracy": 0.9666666666666667,
+    "gapDetection": {
+      "n": 120,
+      "tp": 90,
+      "fp": 0,
+      "fn": 0,
+      "tn": 30,
+      "accuracy": 1,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1
+    },
+    "misconception": {
+      "n": 120,
+      "tp": 30,
+      "fp": 5,
+      "fn": 0,
+      "precision": 0.8571428571428571,
+      "recall": 1,
+      "f1": 0.923076923076923
+    },
+    "hiddenGapRecall": 1,
+    "confusion": {
+      "correct": {
+        "correct": 30,
+        "partial": 0,
+        "incorrect": 0,
+        "misconception": 0
+      },
+      "partial": {
+        "correct": 0,
+        "partial": 29,
+        "incorrect": 0,
+        "misconception": 1
+      },
+      "incorrect": {
+        "correct": 0,
+        "partial": 0,
+        "incorrect": 27,
+        "misconception": 3
+      },
+      "misconception": {
+        "correct": 0,
+        "partial": 0,
+        "incorrect": 0,
+        "misconception": 30
+      }
+    }
+  },
+  "consistency": {
+    "itemsWithRepeats": 40,
+    "meanResponseTypeAgreement": 0.9916666666666666,
+    "meanMisconceptionAgreement": 0.9916666666666666,
+    "fullyConsistentItems": 39,
+    "meanUnderstandingLevelStd": 1.3984245047913029
+  },
+  "cost": {
+    "meanLatencyMs": 6906.508333333333,
+    "medianLatencyMs": 3218.5,
+    "maxLatencyMs": 71433,
+    "meanInputTokens": 626.425,
+    "meanOutputTokens": 105.53333333333333,
+    "totalTokens": 87835
+  },
+  "scenarios": {
+    "evaluated": 13,
+    "skipped": 0,
+    "baselineConceptHitRate": 0.7692307692307693,
+    "llmConceptHitRate": 1,
+    "baselineProbeHitRate": 0,
+    "llmProbeHitRate": 1
+  }
+}

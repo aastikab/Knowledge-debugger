@@ -1,8 +1,9 @@
--- Knowledge Debugger — Progress Report 2 seed data
+-- Knowledge Debugger — seed data
 -- Small controlled dataset for demonstrating the project.
 
 -- Clear existing data (safe to re-run after schema.sql)
-TRUNCATE attempts, questions, concepts RESTART IDENTITY CASCADE;
+TRUNCATE analyses, attempts, questions, concepts RESTART IDENTITY CASCADE;
+-- Note: run sql/add_learner_model.sql after this file to add prerequisites, misconceptions, and probe questions.
 
 -- ----- Concepts (5) -----
 INSERT INTO concepts (name, description) VALUES

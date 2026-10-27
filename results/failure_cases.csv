@@ -1,0 +1,6 @@
+responseId,run,label,llmResponseType,trueMisconception,llmMisconception,answer,llmSummary,warnings
+r14,2,partial,misconception,,GET_POST_CONFUSION,"One of the methods like GET or POST, I can't remember which.","The student remembers that GET and POST are common HTTP methods, but is unsure which one is used to retrieve data.",
+r14,3,partial,partial,,GET_POST_CONFUSION,"One of the methods like GET or POST, I can't remember which.","The student remembers the names GET and POST as HTTP methods, but is unsure which one is specifically used for retrieving data.",
+r15,1,incorrect,misconception,,HTTP_IS_LANGUAGE,HTML.,"The student confuses the HTTP protocol with HTML, which is a markup language for creating web pages.",
+r15,2,incorrect,misconception,,HTTP_IS_LANGUAGE,HTML.,The student confuses the HTTP protocol with markup languages by answering 'HTML' when asked for an HTTP method.,
+r15,3,incorrect,misconception,,HTTP_IS_LANGUAGE,HTML.,The student confuses the HTTP protocol with markup languages by answering with HTML.,

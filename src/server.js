@@ -2,6 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const pool = require('./db');
 const { analyzeWrittenAnswer } = require('./llm');
+const { loadCurriculum, loadLearnerEvidence, toPromptCatalog } = require('./curriculum');
+const { baselineMastery, llmLearnerState, selectNextQuestion } = require('./learnerModel');
 
 const app = express();
 
@@ -23,7 +25,7 @@ app.get('/', (req, res) => {
 app.get('/questions', async (req, res) => {
   try {
     const result = await pool.query(
-      `SELECT id, concept_id, question_text, expected_answer, difficulty
+      `SELECT id, concept_id, question_text, expected_answer, difficulty, probes_misconception_id
        FROM questions
        ORDER BY id`
     );
@@ -48,7 +50,7 @@ app.get('/questions/:id', async (req, res) => {
 
   try {
     const result = await pool.query(
-      `SELECT id, concept_id, question_text, expected_answer, difficulty
+      `SELECT id, concept_id, question_text, expected_answer, difficulty, probes_misconception_id
        FROM questions
        WHERE id = $1`,
       [questionId]
@@ -199,7 +201,7 @@ app.get('/progress/:learnerId', async (req, res) => {
       [learnerId.trim()]
     );
 
-    // Shape the JSON to match the Progress Report 2 example
+    // Shape the JSON response
     const concepts = result.rows.map((row) => ({
       conceptId: row.concept_id,
       concept: row.concept,
@@ -220,7 +222,7 @@ app.get('/progress/:learnerId', async (req, res) => {
 });
 
 // --------------------------------------------------
-// POST /analyze  (Week 7 — LLM-assisted learner model)
+// POST /analyze  (LLM-assisted learner model)
 // Accept a written answer, send it to the LLM, store the analysis.
 // Body example:
 // {
@@ -271,12 +273,21 @@ app.post('/analyze', async (req, res) => {
 
     const question = questionResult.rows[0];
 
+    // The misconception catalog lets the LLM name a known misconception
+    const catalogResult = await pool.query(
+      `SELECT m.code, m.description, c.name AS concept_name
+       FROM misconceptions m
+       JOIN concepts c ON m.concept_id = c.id
+       ORDER BY m.id`
+    );
+
     // Call the LLM for semantic analysis
     const analysis = await analyzeWrittenAnswer({
       conceptName: question.concept_name,
       questionText: question.question_text,
       expectedAnswer: question.expected_answer,
       submittedAnswer: answer.trim(),
+      misconceptionCatalog: toPromptCatalog(catalogResult.rows),
     });
 
     // Store the LLM analysis in PostgreSQL
@@ -288,9 +299,16 @@ app.post('/analyze', async (req, res) => {
          understanding_summary,
          knowledge_gap,
          misconception,
-         llm_seems_correct
+         llm_seems_correct,
+         response_type,
+         understanding_level,
+         misconception_code,
+         model,
+         latency_ms,
+         input_tokens,
+         output_tokens
        )
-       VALUES ($1, $2, $3, $4, $5, $6, $7)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
        RETURNING
          id,
          learner_id,
@@ -299,7 +317,11 @@ app.post('/analyze', async (req, res) => {
          understanding_summary,
          knowledge_gap,
          misconception,
-         llm_seems_correct`,
+         llm_seems_correct,
+         response_type,
+         understanding_level,
+         misconception_code,
+         latency_ms`,
       [
         learnerId.trim(),
         parsedQuestionId,
@@ -308,6 +330,13 @@ app.post('/analyze', async (req, res) => {
         analysis.knowledgeGap,
         analysis.misconception,
         analysis.seemsCorrect,
+        analysis.responseType,
+        analysis.understandingLevel,
+        analysis.misconceptionCode,
+        analysis.model,
+        analysis.latencyMs,
+        analysis.inputTokens,
+        analysis.outputTokens,
       ]
     );
 
@@ -323,7 +352,12 @@ app.post('/analyze', async (req, res) => {
       understandingSummary: row.understanding_summary,
       knowledgeGap: row.knowledge_gap,
       misconception: row.misconception,
+      misconceptionCode: row.misconception_code,
+      responseType: row.response_type,
+      understandingLevel: row.understanding_level,
       llmSeemsCorrect: row.llm_seems_correct,
+      latencyMs: row.latency_ms,
+      warnings: analysis.warnings,
     });
   } catch (error) {
     console.error('Error analyzing answer:', error.message);
@@ -336,7 +370,7 @@ app.post('/analyze', async (req, res) => {
 
 // --------------------------------------------------
 // GET /analyses?learnerId=demo-student
-// Return LLM analysis history for a learner (Week 7)
+// Return LLM analysis history for a learner
 // --------------------------------------------------
 app.get('/analyses', async (req, res) => {
   const { learnerId } = req.query;
@@ -357,7 +391,10 @@ app.get('/analyses', async (req, res) => {
          understanding_summary,
          knowledge_gap,
          misconception,
-         llm_seems_correct
+         llm_seems_correct,
+         response_type,
+         understanding_level,
+         misconception_code
        FROM analyses
        WHERE learner_id = $1
        ORDER BY id`,
@@ -372,6 +409,9 @@ app.get('/analyses', async (req, res) => {
       understandingSummary: row.understanding_summary,
       knowledgeGap: row.knowledge_gap,
       misconception: row.misconception,
+      misconceptionCode: row.misconception_code,
+      responseType: row.response_type,
+      understandingLevel: row.understanding_level,
       llmSeemsCorrect: row.llm_seems_correct,
     }));
 
@@ -383,8 +423,128 @@ app.get('/analyses', async (req, res) => {
 });
 
 // --------------------------------------------------
+// GET /concepts
+// Concepts with their prerequisites and known misconceptions
+// --------------------------------------------------
+app.get('/concepts', async (req, res) => {
+  try {
+    const { concepts, prerequisites, misconceptions } = await loadCurriculum(pool);
+
+    const result = concepts.map((c) => ({
+      id: c.id,
+      name: c.name,
+      description: c.description,
+      prerequisites: prerequisites
+        .filter((p) => p.concept_id === c.id)
+        .map((p) => p.prerequisite_id),
+      misconceptions: misconceptions
+        .filter((m) => m.concept_id === c.id)
+        .map((m) => ({ code: m.code, description: m.description })),
+    }));
+
+    res.status(200).json(result);
+  } catch (error) {
+    console.error('Error fetching concepts:', error.message);
+    res.status(500).json({ error: 'Failed to retrieve concepts' });
+  }
+});
+
+// --------------------------------------------------
+// GET /learner-model/:learnerId
+// Side-by-side view of both learner models for one learner
+// --------------------------------------------------
+app.get('/learner-model/:learnerId', async (req, res) => {
+  const learnerId = req.params.learnerId.trim();
+
+  try {
+    const curriculum = await loadCurriculum(pool);
+    const evidence = await loadLearnerEvidence(pool, learnerId);
+    const llmState = llmLearnerState(evidence.analyses, curriculum.misconceptions, curriculum.questions);
+
+    res.status(200).json({
+      learnerId,
+      baseline: {
+        evidenceCount: evidence.attempts.length,
+        mastery: baselineMastery(evidence.attempts),
+      },
+      llm: {
+        evidenceCount: evidence.analyses.length,
+        mastery: llmState.mastery,
+        activeMisconceptions: llmState.activeMisconceptions,
+      },
+    });
+  } catch (error) {
+    console.error('Error building learner model:', error.message);
+    res.status(500).json({ error: 'Failed to build learner model' });
+  }
+});
+
+// --------------------------------------------------
+// GET /next-question/:learnerId?method=baseline|llm
+// Adaptive next-question selection.
+// Both methods use the same selection rule; only the evidence differs.
+// --------------------------------------------------
+app.get('/next-question/:learnerId', async (req, res) => {
+  const learnerId = req.params.learnerId.trim();
+  const method = req.query.method || 'llm';
+
+  if (method !== 'baseline' && method !== 'llm') {
+    return res.status(400).json({ error: 'method must be "baseline" or "llm"' });
+  }
+
+  try {
+    const curriculum = await loadCurriculum(pool);
+    const evidence = await loadLearnerEvidence(pool, learnerId);
+
+    let mastery;
+    let activeMisconceptions = [];
+    let answeredQuestionIds;
+
+    if (method === 'baseline') {
+      mastery = baselineMastery(evidence.attempts);
+      answeredQuestionIds = evidence.attempts.map((a) => a.question_id);
+    } else {
+      const llmState = llmLearnerState(evidence.analyses, curriculum.misconceptions, curriculum.questions);
+      mastery = llmState.mastery;
+      activeMisconceptions = llmState.activeMisconceptions;
+      answeredQuestionIds = evidence.analyses.map((a) => a.question_id);
+    }
+
+    const selection = selectNextQuestion({
+      ...curriculum,
+      answeredQuestionIds,
+      mastery,
+      activeMisconceptions,
+    });
+
+    if (!selection) {
+      return res.status(404).json({ error: 'No questions available' });
+    }
+
+    res.status(200).json({
+      learnerId,
+      method,
+      question: {
+        id: selection.question.id,
+        conceptId: selection.question.concept_id,
+        questionText: selection.question.question_text,
+        difficulty: selection.question.difficulty,
+      },
+      rule: selection.rule,
+      reason: selection.reason,
+      mastery,
+      activeMisconceptions,
+    });
+  } catch (error) {
+    console.error('Error selecting next question:', error.message);
+    res.status(500).json({ error: 'Failed to select next question' });
+  }
+});
+
+// --------------------------------------------------
 // Start the server
 // --------------------------------------------------
-app.listen(3000, () => {
-  console.log('Server running on http://localhost:3000');
+const PORT = Number(process.env.PORT) || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
 });

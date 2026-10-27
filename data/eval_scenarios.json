@@ -1,0 +1,18 @@
+{
+  "description": "Simulated learners built from the labeled responses. Every learner answers one question per concept, so neither method gains from an untested concept. targetConceptId / targetMisconceptionCode = the gap a good follow-up question should target.",
+  "scenarios": [
+    { "id": "S01", "description": "Hidden authn/authz confusion: every answer graded correct", "responses": ["r01", "r09", "r17", "r28", "r33"], "targetConceptId": 5, "targetMisconceptionCode": "AUTHN_AUTHZ_CONFUSION" },
+    { "id": "S02", "description": "Hidden 'HTTP is a language' belief inside a correct acronym", "responses": ["r01", "r12", "r17", "r25", "r33"], "targetConceptId": 2, "targetMisconceptionCode": "HTTP_IS_LANGUAGE" },
+    { "id": "S03", "description": "Hidden 'server must be hardware' belief, graded correct", "responses": ["r08", "r09", "r17", "r25", "r33"], "targetConceptId": 1, "targetMisconceptionCode": "SERVER_IS_HARDWARE_ONLY" },
+    { "id": "S04", "description": "Shallow API answer graded correct (no misconception)", "responses": ["r01", "r09", "r18", "r25", "r33"], "targetConceptId": 3, "targetMisconceptionCode": null },
+    { "id": "S05", "description": "Visible GET/POST confusion (graded wrong)", "responses": ["r01", "r16", "r17", "r25", "r33"], "targetConceptId": 2, "targetMisconceptionCode": "GET_POST_CONFUSION" },
+    { "id": "S06", "description": "Visible 'API is a database' belief (graded wrong)", "responses": ["r05", "r09", "r20", "r29", "r37"], "targetConceptId": 3, "targetMisconceptionCode": "API_IS_DATABASE" },
+    { "id": "S07", "description": "Visible 'API is the UI' belief (graded wrong)", "responses": ["r01", "r13", "r24", "r25", "r33"], "targetConceptId": 3, "targetMisconceptionCode": "API_IS_UI" },
+    { "id": "S08", "description": "Visible 'encryption is authentication' belief (graded wrong)", "responses": ["r01", "r09", "r17", "r32", "r33"], "targetConceptId": 4, "targetMisconceptionCode": "ENCRYPTION_IS_AUTHENTICATION" },
+    { "id": "S09", "description": "Visible client/server role reversal (graded wrong)", "responses": ["r04", "r09", "r17", "r25", "r33"], "targetConceptId": 1, "targetMisconceptionCode": "CLIENT_SERVER_REVERSED" },
+    { "id": "S10", "description": "Same score as S11: authorization wrong because of a misconception", "responses": ["r01", "r09", "r17", "r29", "r36"], "targetConceptId": 5, "targetMisconceptionCode": "AUTHN_AUTHZ_CONFUSION" },
+    { "id": "S11", "description": "Same score as S10: authorization wrong because of no knowledge", "responses": ["r01", "r09", "r17", "r29", "r35"], "targetConceptId": 5, "targetMisconceptionCode": null },
+    { "id": "S12", "description": "Plain HTTP gap with no misconception", "responses": ["r01", "r11", "r17", "r25", "r33"], "targetConceptId": 2, "targetMisconceptionCode": null },
+    { "id": "S13", "description": "Plain foundation gap (Client and Server)", "responses": ["r03", "r09", "r17", "r25", "r33"], "targetConceptId": 1, "targetMisconceptionCode": null }
+  ]
+}

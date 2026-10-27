@@ -1,5 +1,5 @@
--- Knowledge Debugger — Week 7 addition
--- Adds LLM analysis storage WITHOUT dropping Progress Report 2 tables.
+-- Knowledge Debugger — analyses table migration
+-- Adds LLM analysis storage WITHOUT dropping the existing baseline tables.
 -- Safe to run on an existing knowledge_debugger database.
 
 CREATE TABLE IF NOT EXISTS analyses (

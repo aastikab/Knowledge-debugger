@@ -1,0 +1,121 @@
+responseId,run,questionId,label,trueMisconception,baselineCorrect,llmResponseType,llmMisconception,llmUnderstandingLevel,llmGap,latencyMs,inputTokens,outputTokens,answer
+r01,1,1,correct,,true,correct,,100,,7323,647,93,"A client is a program or device, like a web browser, that sends requests to a server to get data or services."
+r01,2,1,correct,,true,correct,,100,,9358,647,93,"A client is a program or device, like a web browser, that sends requests to a server to get data or services."
+r01,3,1,correct,,true,correct,,100,,7855,647,94,"A client is a program or device, like a web browser, that sends requests to a server to get data or services."
+r02,1,1,partial,,true,partial,,70,"The student misses the broader definition that a client can be any program or device requesting services, not just a browser.",8808,628,107,The client is the browser.
+r02,2,1,partial,,true,partial,,60,"The student lacks a general definition of a client as any program or device that requests services, focusing only on a specific example.",5782,628,105,The client is the browser.
+r02,3,1,partial,,true,partial,,70,"The student misses the broader definition that a client is any program or device that requests services from a server, not just a browser.",6776,628,116,The client is the browser.
+r03,1,1,incorrect,,false,incorrect,,0,Does not understand that a client is a program or device that requests resources or services from a server.,18567,638,105,"I don't really know, maybe something to do with Wi-Fi?"
+r03,2,1,incorrect,,false,incorrect,,0,Does not know that a client is a program or device that requests services from a server.,6048,638,103,"I don't really know, maybe something to do with Wi-Fi?"
+r03,3,1,incorrect,,false,incorrect,,0,Does not know that a client is a program or device that requests resources or services from a server.,7338,638,106,"I don't really know, maybe something to do with Wi-Fi?"
+r04,1,1,misconception,CLIENT_SERVER_REVERSED,false,misconception,CLIENT_SERVER_REVERSED,30,Does not recognize that the client always initiates the request for resources.,8703,646,125,A client is the computer that waits for the server to contact it and then receives the pages the server decides to send.
+r04,2,1,misconception,CLIENT_SERVER_REVERSED,false,misconception,CLIENT_SERVER_REVERSED,30,Does not understand that the client initiates the request for resources.,17157,646,122,A client is the computer that waits for the server to contact it and then receives the pages the server decides to send.
+r04,3,1,misconception,CLIENT_SERVER_REVERSED,false,misconception,CLIENT_SERVER_REVERSED,30,Understanding that the client initiates the request-response cycle.,15462,646,130,A client is the computer that waits for the server to contact it and then receives the pages the server decides to send.
+r05,1,2,correct,,true,correct,,100,,5066,645,86,A server is a program or computer that listens for requests from clients and sends back responses or resources.
+r05,2,2,correct,,true,correct,,100,,3770,645,87,A server is a program or computer that listens for requests from clients and sends back responses or resources.
+r05,3,2,correct,,true,correct,,100,,17772,645,88,A server is a program or computer that listens for requests from clients and sends back responses or resources.
+r06,1,2,partial,,true,partial,,35,The student does not mention that a server listens for and responds to client requests.,18695,630,118,A server stores websites.
+r06,2,2,partial,,true,partial,,40,The student does not mention that a server listens for and responds to client requests.,9033,630,128,A server stores websites.
+r06,3,2,partial,,true,partial,,40,Does not mention that a server listens for and responds to client requests.,11306,630,118,A server stores websites.
+r07,1,2,incorrect,,false,incorrect,,5,Does not know the definition or role of a server in a network.,18514,635,97,Not sure. Something to do with the internet.
+r07,2,2,incorrect,,false,incorrect,,10,Does not know that a server listens for requests and provides responses to clients.,8697,635,100,Not sure. Something to do with the internet.
+r07,3,2,incorrect,,false,incorrect,,10,Does not know that a server is a program or computer that listens for requests and provides responses.,6879,635,104,Not sure. Something to do with the internet.
+r08,1,2,misconception,SERVER_IS_HARDWARE_ONLY,true,misconception,SERVER_IS_HARDWARE_ONLY,40,The idea that a server is primarily defined by its role (listening for requests and responding) rather than its physical hardware.,8806,651,144,A server is a powerful dedicated machine in a data center that provides websites to clients. A normal laptop can never be a server.
+r08,2,2,misconception,SERVER_IS_HARDWARE_ONLY,true,misconception,SERVER_IS_HARDWARE_ONLY,40,The idea that a server is primarily defined by its role (responding to requests) rather than its physical form factor.,71433,651,146,A server is a powerful dedicated machine in a data center that provides websites to clients. A normal laptop can never be a server.
+r08,3,2,misconception,SERVER_IS_HARDWARE_ONLY,true,misconception,SERVER_IS_HARDWARE_ONLY,40,Does not understand that a server is defined by its role (listening for requests) rather than its physical form factor.,9136,651,145,A server is a powerful dedicated machine in a data center that provides websites to clients. A normal laptop can never be a server.
+r09,1,3,correct,,true,correct,,100,,6384,611,75,HyperText Transfer Protocol.
+r09,2,3,correct,,true,correct,,100,,9656,611,77,HyperText Transfer Protocol.
+r09,3,3,correct,,true,correct,,100,,7908,611,77,HyperText Transfer Protocol.
+r10,1,3,partial,,false,partial,,50,"Does not know the full, exact meaning of the HTTP acronym.",10809,618,105,Hypertext something protocol. It's for the web.
+r10,2,3,partial,,false,partial,,40,Does not know what the acronym HTTP stands for.,7151,618,94,Hypertext something protocol. It's for the web.
+r10,3,3,partial,,false,partial,,50,Does not remember the full meaning of the HTTP acronym.,5391,618,96,Hypertext something protocol. It's for the web.
+r11,1,3,incorrect,,false,incorrect,,0,Does not know what the acronym HTTP stands for.,5271,611,91,High Tech Transfer Program.
+r11,2,3,incorrect,,false,incorrect,,0,Does not know what the acronym HTTP stands for.,41327,611,108,High Tech Transfer Program.
+r11,3,3,incorrect,,false,incorrect,,0,"Does not know what the letters H, T, T, and P stand for.",5799,611,99,High Tech Transfer Program.
+r12,1,3,misconception,HTTP_IS_LANGUAGE,true,misconception,HTTP_IS_LANGUAGE,50,Does not understand that HTTP is a communication protocol rather than a programming language.,29412,623,119,"HyperText Transfer Protocol, which is the programming language that web pages are written in."
+r12,2,3,misconception,HTTP_IS_LANGUAGE,true,misconception,HTTP_IS_LANGUAGE,50,Does not understand that HTTP is a communication protocol rather than a programming language.,1967,623,130,"HyperText Transfer Protocol, which is the programming language that web pages are written in."
+r12,3,3,misconception,HTTP_IS_LANGUAGE,true,misconception,HTTP_IS_LANGUAGE,50,Does not understand that HTTP is a communication protocol rather than a programming language.,3029,623,131,"HyperText Transfer Protocol, which is the programming language that web pages are written in."
+r13,1,4,correct,,true,correct,,100,,3068,620,90,GET. It asks the server to send back data without changing anything.
+r13,2,4,correct,,true,correct,,100,,2413,620,88,GET. It asks the server to send back data without changing anything.
+r13,3,4,correct,,true,correct,,100,,4124,620,88,GET. It asks the server to send back data without changing anything.
+r14,1,4,partial,,false,partial,,50,Does not remember the exact purpose of the GET method versus POST.,2009,622,101,"One of the methods like GET or POST, I can't remember which."
+r14,2,4,partial,,false,misconception,GET_POST_CONFUSION,40,Does not know the specific function of the GET method versus POST.,2458,622,123,"One of the methods like GET or POST, I can't remember which."
+r14,3,4,partial,,false,partial,GET_POST_CONFUSION,40,Does not know that GET is the HTTP method used to retrieve data.,16798,622,122,"One of the methods like GET or POST, I can't remember which."
+r15,1,4,incorrect,,false,misconception,HTTP_IS_LANGUAGE,0,Does not know what an HTTP method is or that HTTP is a communication protocol.,16893,608,114,HTML.
+r15,2,4,incorrect,,false,misconception,HTTP_IS_LANGUAGE,0,Does not know what an HTTP method is or how data is retrieved over the web.,15660,608,117,HTML.
+r15,3,4,incorrect,,false,misconception,HTTP_IS_LANGUAGE,0,Does not know the names of common HTTP request methods used for communication.,16469,608,110,HTML.
+r16,1,4,misconception,GET_POST_CONFUSION,false,misconception,GET_POST_CONFUSION,20,Does not know that GET is the primary HTTP method used to retrieve or read data.,1370,618,132,"POST, because the server posts the data back to you."
+r16,2,4,misconception,GET_POST_CONFUSION,false,misconception,GET_POST_CONFUSION,30,Does not know that GET is the primary HTTP method used to retrieve data.,1717,618,131,"POST, because the server posts the data back to you."
+r16,3,4,misconception,GET_POST_CONFUSION,false,misconception,GET_POST_CONFUSION,30,Does not know that GET is the primary HTTP method used for retrieving data.,922,618,128,"POST, because the server posts the data back to you."
+r17,1,5,correct,,true,correct,,100,,20247,644,87,"An API is a defined interface that lets one program request data or actions from another program, for example over HTTP."
+r17,2,5,correct,,true,correct,,100,,14083,644,94,"An API is a defined interface that lets one program request data or actions from another program, for example over HTTP."
+r17,3,5,correct,,true,correct,,100,,1472,644,95,"An API is a defined interface that lets one program request data or actions from another program, for example over HTTP."
+r18,1,5,partial,,true,partial,,50,"Missing the concepts of requests, data exchange, and defined rules or interfaces.",1936,631,99,It's a way for apps to connect.
+r18,2,5,partial,,true,partial,,40,Lacks the technical detail that an API involves requesting and exchanging data in a defined way.,1376,631,100,It's a way for apps to connect.
+r18,3,5,partial,,true,partial,,50,The student does not mention how APIs allow systems to request and exchange data in a defined way.,1019,631,101,It's a way for apps to connect.
+r19,1,5,incorrect,,false,incorrect,,0,The student does not understand that an API is an interface for software systems to communicate and exchange data.,1763,628,126,API stands for Advanced Programming Internet.
+r19,2,5,incorrect,,false,incorrect,,10,Does not know what API stands for or what its actual function is.,1200,628,109,API stands for Advanced Programming Internet.
+r19,3,5,incorrect,,false,incorrect,,5,Does not know what an API actually stands for (Application Programming Interface) or its function.,838,628,102,API stands for Advanced Programming Internet.
+r20,1,5,misconception,API_IS_DATABASE,false,misconception,API_IS_DATABASE,20,Does not understand that an API is an interface for software communication rather than a data storage mechanism.,13133,635,127,An API is the database where an application keeps all of its data.
+r20,2,5,misconception,API_IS_DATABASE,false,misconception,API_IS_DATABASE,20,"Does not understand that an API is an interface for communication and data exchange between different software systems, not a data storage location.",2108,635,131,An API is the database where an application keeps all of its data.
+r20,3,5,misconception,API_IS_DATABASE,false,misconception,API_IS_DATABASE,10,Does not understand that an API is an interface for communication and data exchange rather than a storage mechanism.,17795,635,118,An API is the database where an application keeps all of its data.
+r21,1,6,correct,,true,correct,,100,,1946,626,89,"URLs (URIs), like /users/42, identify each resource."
+r21,2,6,correct,,true,correct,,100,,1316,626,85,"URLs (URIs), like /users/42, identify each resource."
+r21,3,6,correct,,true,correct,,100,,990,626,87,"URLs (URIs), like /users/42, identify each resource."
+r22,1,6,partial,,false,partial,,60,Does not use the standard technical terminology (URLs or URIs) for identifying resources in REST.,1968,617,109,Some kind of address or path.
+r22,2,6,partial,,false,partial,,60,Does not know the specific term 'URL' or 'URI' used in REST architecture.,1322,617,111,Some kind of address or path.
+r22,3,6,partial,,false,partial,,70,Does not know the specific term for the address or path used in REST (URLs or URIs).,1319,617,107,Some kind of address or path.
+r23,1,6,incorrect,,false,incorrect,,0,Does not know that REST uses URLs or URIs to identify resources.,1010,615,94,I have no idea.
+r23,2,6,incorrect,,false,incorrect,,0,Does not know that REST uses URLs or URIs to identify resources.,2578,615,94,I have no idea.
+r23,3,6,incorrect,,false,incorrect,,0,Does not know that REST uses URLs or URIs to identify resources.,1910,615,94,I have no idea.
+r24,1,6,misconception,API_IS_UI,false,misconception,API_IS_UI,10,Does not understand that REST APIs use URLs to identify resources rather than relying on a visual interface.,2920,631,125,"REST uses the buttons and pages of the website, because the API is the user interface people click on."
+r24,2,6,misconception,API_IS_UI,false,misconception,API_IS_UI,10,Does not understand that REST APIs use URLs or URIs to identify resources rather than visual website elements.,2593,631,126,"REST uses the buttons and pages of the website, because the API is the user interface people click on."
+r24,3,6,misconception,API_IS_UI,false,misconception,API_IS_UI,10,Does not understand that REST APIs use URLs/URIs to identify resources rather than relying on visual interface elements.,6027,631,132,"REST uses the buttons and pages of the website, because the API is the user interface people click on."
+r25,1,7,correct,,true,correct,,100,,14375,623,87,"Authentication is verifying a user's identity, for example by checking their password."
+r25,2,7,correct,,true,correct,,100,,3506,623,87,"Authentication is verifying a user's identity, for example by checking their password."
+r25,3,7,correct,,true,correct,,100,,2161,623,87,"Authentication is verifying a user's identity, for example by checking their password."
+r26,1,7,partial,,true,partial,,50,The student does not explain the formal definition or the underlying mechanism of verifying a user's identity.,3036,610,104,Logging in.
+r26,2,7,partial,,true,partial,,50,The student does not explain the formal definition that authentication verifies a user's identity.,6059,610,99,Logging in.
+r26,3,7,partial,,true,partial,,50,"The student fails to explain the underlying technical definition, which is verifying a user's identity.",3369,610,104,Logging in.
+r27,1,7,incorrect,,false,incorrect,,0,Does not know that authentication is the process of verifying a user's identity.,4395,620,106,"I'm not sure, maybe a type of virus scan?"
+r27,2,7,incorrect,,false,incorrect,,0,Does not know that authentication is the process of verifying a user's identity.,1934,620,100,"I'm not sure, maybe a type of virus scan?"
+r27,3,7,incorrect,,false,incorrect,,0,The student does not know what authentication is or what purpose it serves.,1117,620,88,"I'm not sure, maybe a type of virus scan?"
+r28,1,7,misconception,AUTHN_AUTHZ_CONFUSION,true,misconception,AUTHN_AUTHZ_CONFUSION,50,The student is missing the distinction between authentication (verifying identity) and authorization (determining permissions).,914,626,132,Authentication verifies who the user is and also decides which pages and data they are allowed to access.
+r28,2,7,misconception,AUTHN_AUTHZ_CONFUSION,true,misconception,AUTHN_AUTHZ_CONFUSION,50,The distinction between authentication (verifying identity) and authorization (determining permissions and access).,1611,626,130,Authentication verifies who the user is and also decides which pages and data they are allowed to access.
+r28,3,7,misconception,AUTHN_AUTHZ_CONFUSION,true,misconception,AUTHN_AUTHZ_CONFUSION,50,The distinction between authentication (verifying identity) and authorization (deciding what they can access).,1545,626,131,Authentication verifies who the user is and also decides which pages and data they are allowed to access.
+r29,1,8,correct,,true,correct,,100,,2074,614,80,Entering a username and password.
+r29,2,8,correct,,true,correct,,100,,5542,614,82,Entering a username and password.
+r29,3,8,correct,,true,correct,,100,,14942,614,83,Entering a username and password.
+r30,1,8,partial,,false,partial,,50,Does not explicitly mention standard credentials like a username and password.,1572,614,101,Using some kind of code.
+r30,2,8,partial,,false,partial,,50,"The student lacks specificity about standard authentication methods, such as a username and password.",15464,614,101,Using some kind of code.
+r30,3,8,partial,,false,partial,,40,Does not specify standard authentication methods like username and password.,823,614,95,Using some kind of code.
+r31,1,8,incorrect,,false,incorrect,,0,"Lacks basic knowledge of how users prove their identity to a system, such as using a username and password.",14359,616,99,"No idea, maybe restarting the computer?"
+r31,2,8,incorrect,,false,incorrect,,0,Lacks basic knowledge of how users log in or authenticate with a system.,1057,616,92,"No idea, maybe restarting the computer?"
+r31,3,8,incorrect,,false,incorrect,,0,Does not know standard authentication methods like username and password.,1017,616,92,"No idea, maybe restarting the computer?"
+r32,1,8,misconception,ENCRYPTION_IS_AUTHENTICATION,false,misconception,ENCRYPTION_IS_AUTHENTICATION,20,"Does not recognize that authentication requires identifying the user (e.g., via credentials), not just securing the connection.",15351,620,131,"Using HTTPS, because the encryption proves who the user is."
+r32,2,8,misconception,ENCRYPTION_IS_AUTHENTICATION,false,misconception,ENCRYPTION_IS_AUTHENTICATION,20,Does not recognize standard authentication credentials like usernames and passwords.,841,620,119,"Using HTTPS, because the encryption proves who the user is."
+r32,3,8,misconception,ENCRYPTION_IS_AUTHENTICATION,false,misconception,ENCRYPTION_IS_AUTHENTICATION,20,Does not mention standard credential-based authentication methods like a username and password.,1123,620,129,"Using HTTPS, because the encryption proves who the user is."
+r33,1,9,correct,,true,correct,,100,,973,634,88,"Authorization decides what an authenticated user is allowed to do or access, like whether they can edit a file."
+r33,2,9,correct,,true,correct,,100,,953,634,92,"Authorization decides what an authenticated user is allowed to do or access, like whether they can edit a file."
+r33,3,9,correct,,true,correct,,100,,1564,634,89,"Authorization decides what an authenticated user is allowed to do or access, like whether they can edit a file."
+r34,1,9,partial,,true,partial,,50,The student did not explain that authorization specifically determines what actions or resources an authenticated user is allowed to access.,948,619,108,It's about permissions.
+r34,2,9,partial,,true,partial,,50,The student did not explain that authorization determines what actions or resources an authenticated user can access.,880,619,98,It's about permissions.
+r34,3,9,partial,,true,partial,,40,The student does not explain that authorization applies specifically to an authenticated user and dictates what actions or resources they can access.,929,619,106,It's about permissions.
+r35,1,9,incorrect,,false,incorrect,,0,Does not know that authorization defines what an authenticated user can access.,1217,627,88,"Something about the website's settings, I'm not sure."
+r35,2,9,incorrect,,false,incorrect,,0,Does not know that authorization is the process of determining what an authenticated user can access.,8631,627,92,"Something about the website's settings, I'm not sure."
+r35,3,9,incorrect,,false,incorrect,,0,Does not know that authorization is the process of determining what an authenticated user can access.,1181,627,92,"Something about the website's settings, I'm not sure."
+r36,1,9,misconception,AUTHN_AUTHZ_CONFUSION,false,misconception,AUTHN_AUTHZ_CONFUSION,20,The distinction between confirming identity (authentication) and determining permissions (authorization).,1719,627,125,Authorization is checking the user's password to confirm who they are.
+r36,2,9,misconception,AUTHN_AUTHZ_CONFUSION,false,misconception,AUTHN_AUTHZ_CONFUSION,20,The distinction between verifying identity (authentication) and determining permissions (authorization).,1027,627,126,Authorization is checking the user's password to confirm who they are.
+r36,3,9,misconception,AUTHN_AUTHZ_CONFUSION,false,misconception,AUTHN_AUTHZ_CONFUSION,20,The distinction between verifying identity (authentication) and determining permissions (authorization).,12794,627,127,Authorization is checking the user's password to confirm who they are.
+r37,1,10,correct,,true,correct,,100,,1796,637,93,Authentication checks who you are; authorization checks what you are allowed to do once your identity is known.
+r37,2,10,correct,,true,correct,,100,,844,637,82,Authentication checks who you are; authorization checks what you are allowed to do once your identity is known.
+r37,3,10,correct,,true,correct,,100,,2553,637,93,Authentication checks who you are; authorization checks what you are allowed to do once your identity is known.
+r38,1,10,partial,,false,partial,,30,The student fails to explain that authentication verifies who you are while authorization checks what you are allowed to do.,1234,628,106,They are both about security but they are different steps.
+r38,2,10,partial,,false,partial,,30,The student fails to explain that authentication verifies identity while authorization checks permissions.,1046,628,100,They are both about security but they are different steps.
+r38,3,10,partial,,false,partial,,30,The student does not explain that authentication verifies identity while authorization checks permissions.,5053,628,101,They are both about security but they are different steps.
+r39,1,10,incorrect,,false,incorrect,,0,Does not know the definitions or distinctions between authentication and authorization.,12873,625,87,I don't know the difference.
+r39,2,10,incorrect,,false,incorrect,,0,The student lacks basic awareness of both authentication and authorization concepts.,4936,625,87,I don't know the difference.
+r39,3,10,incorrect,,false,incorrect,,0,The student lacks basic awareness of both authentication and authorization concepts.,748,625,87,I don't know the difference.
+r40,1,10,misconception,AUTHN_AUTHZ_CONFUSION,false,misconception,AUTHN_AUTHZ_CONFUSION,20,The distinction between verifying identity and granting permissions.,1187,639,127,"There is no real difference; once you log in, that login is what gives you permission to do things."
+r40,2,10,misconception,AUTHN_AUTHZ_CONFUSION,false,misconception,AUTHN_AUTHZ_CONFUSION,10,The distinction that authentication determines a user's identity while authorization determines their specific access permissions.,14998,639,139,"There is no real difference; once you log in, that login is what gives you permission to do things."
+r40,3,10,misconception,AUTHN_AUTHZ_CONFUSION,false,misconception,AUTHN_AUTHZ_CONFUSION,20,The distinction between identity verification and permission management.,1352,639,124,"There is no real difference; once you log in, that login is what gives you permission to do things."
