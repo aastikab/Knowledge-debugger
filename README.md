@@ -63,6 +63,12 @@ Knowledge-debugger/
 
 **Why a misconception catalog?** Free-text LLM output cannot be scored automatically. Asking the LLM to choose from a known list makes "did it find the right misconception?" a measurable question. The free-text fields are still stored for qualitative analysis.
 
+## Prerequisites
+
+- Node.js and npm
+- PostgreSQL
+- A Gemini API key only if you plan to use `POST /analyze` or run the evaluation script; baseline endpoints and unit tests do not require it.
+
 ## Setup
 
 ```bash
