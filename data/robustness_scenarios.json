@@ -1,0 +1,17 @@
+{
+  "description": "Simulated learners built from the robustness set. Each answers at least one question per concept. targetConceptId / targetMisconceptionCode = the gap a good follow-up should target. When targetMisconceptionCode is null, asking a misconception probe is counted as a false probe.",
+  "scenarios": [
+    { "id": "R01", "description": "Long answer with a buried 'API is a database' belief (graded correct)", "responses": ["i01", "x06", "x02", "x08", "x03"], "targetConceptId": 3, "targetMisconceptionCode": "API_IS_DATABASE" },
+    { "id": "R02", "description": "Mixed answer: GET named, but POST believed to retrieve data (graded correct)", "responses": ["x01", "m02", "x10", "i02", "x03"], "targetConceptId": 2, "targetMisconceptionCode": "GET_POST_CONFUSION" },
+    { "id": "R03", "description": "Mixed answer: password plus 'HTTPS proves identity' (graded correct)", "responses": ["x01", "h01", "x10", "m03", "i03"], "targetConceptId": 4, "targetMisconceptionCode": "ENCRYPTION_IS_AUTHENTICATION" },
+    { "id": "R04", "description": "Hedged: can't remember which term is which (no misconception)", "responses": ["x01", "x06", "x10", "x08", "h05"], "targetConceptId": 5, "targetMisconceptionCode": null },
+    { "id": "R05", "description": "Out-of-catalog: 'HTTP is the internet' (graded correct)", "responses": ["x01", "o01", "x10", "x08", "x03"], "targetConceptId": 2, "targetMisconceptionCode": null },
+    { "id": "R06", "description": "Out-of-catalog: 'authorization only applies to admins' (graded correct)", "responses": ["x01", "x06", "x10", "x08", "o03"], "targetConceptId": 5, "targetMisconceptionCode": null },
+    { "id": "R07", "description": "Out-of-catalog near-miss: 'GET can't have parameters' (graded correct)", "responses": ["i01", "o06", "x09", "i02", "x03"], "targetConceptId": 2, "targetMisconceptionCode": null },
+    { "id": "R08", "description": "Informal writing hiding 'server must be hardware' (graded correct)", "responses": ["i06", "h01", "x10", "x08", "i03"], "targetConceptId": 1, "targetMisconceptionCode": "SERVER_IS_HARDWARE_ONLY" },
+    { "id": "R09", "description": "Long answer with client/server roles reversed (graded correct)", "responses": ["x05", "x06", "x09", "i02", "x03"], "targetConceptId": 1, "targetMisconceptionCode": "CLIENT_SERVER_REVERSED" },
+    { "id": "R10", "description": "Long but shallow authentication answer (graded correct, no misconception)", "responses": ["x01", "x06", "x10", "x04", "x03"], "targetConceptId": 4, "targetMisconceptionCode": null },
+    { "id": "R11", "description": "Misconception confirmed by its probe answer; stay on Authentication", "responses": ["x01", "x06", "x10", "m03", "p07", "x03"], "targetConceptId": 4, "targetMisconceptionCode": null },
+    { "id": "R12", "description": "Informal 'API is the database' (graded wrong)", "responses": ["i01", "h01", "i04", "i02", "i03"], "targetConceptId": 3, "targetMisconceptionCode": "API_IS_DATABASE" }
+  ]
+}

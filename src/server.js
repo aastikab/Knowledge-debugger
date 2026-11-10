@@ -1,4 +1,5 @@
 require('dotenv').config();
+const path = require('path');
 const express = require('express');
 const pool = require('./db');
 const { analyzeWrittenAnswer } = require('./llm');
@@ -9,6 +10,9 @@ const app = express();
 
 // Allow Express to read JSON request bodies (needed for POST /attempts)
 app.use(express.json());
+
+// Demo page for the video: http://localhost:3000/app
+app.use('/app', express.static(path.join(__dirname, '..', 'public')));
 
 // --------------------------------------------------
 // GET /
@@ -306,9 +310,10 @@ app.post('/analyze', async (req, res) => {
          model,
          latency_ms,
          input_tokens,
-         output_tokens
+         output_tokens,
+         prompt_version
        )
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
        RETURNING
          id,
          learner_id,
@@ -337,6 +342,7 @@ app.post('/analyze', async (req, res) => {
         analysis.latencyMs,
         analysis.inputTokens,
         analysis.outputTokens,
+        analysis.promptVersion,
       ]
     );
 
@@ -357,6 +363,7 @@ app.post('/analyze', async (req, res) => {
       understandingLevel: row.understanding_level,
       llmSeemsCorrect: row.llm_seems_correct,
       latencyMs: row.latency_ms,
+      promptVersion: analysis.promptVersion,
       warnings: analysis.warnings,
     });
   } catch (error) {
@@ -538,6 +545,24 @@ app.get('/next-question/:learnerId', async (req, res) => {
   } catch (error) {
     console.error('Error selecting next question:', error.message);
     res.status(500).json({ error: 'Failed to select next question' });
+  }
+});
+
+// --------------------------------------------------
+// DELETE /learners/:learnerId
+// Remove one learner's attempts and analyses (used to reset the demo)
+// --------------------------------------------------
+app.delete('/learners/:learnerId', async (req, res) => {
+  const learnerId = req.params.learnerId.trim();
+  if (!learnerId) return res.status(400).json({ error: 'learnerId is required' });
+
+  try {
+    const attempts = await pool.query('DELETE FROM attempts WHERE learner_id = $1', [learnerId]);
+    const analyses = await pool.query('DELETE FROM analyses WHERE learner_id = $1', [learnerId]);
+    res.status(200).json({ learnerId, deletedAttempts: attempts.rowCount, deletedAnalyses: analyses.rowCount });
+  } catch (error) {
+    console.error('Error resetting learner:', error.message);
+    res.status(500).json({ error: 'Failed to reset learner' });
   }
 });
 

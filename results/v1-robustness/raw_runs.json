@@ -1,0 +1,1165 @@
+{
+  "x01": [
+    {
+      "understandingSummary": "The student understands that a server is software that listens for network requests from clients, processes them, and sends back responses.",
+      "knowledgeGap": null,
+      "misconception": null,
+      "misconceptionCode": null,
+      "responseType": "correct",
+      "understandingLevel": 100,
+      "seemsCorrect": true,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 36190,
+      "inputTokens": 708,
+      "outputTokens": 88
+    },
+    {
+      "understandingSummary": "The student understands that a server is software waiting for network requests, processes them, and returns a response, and even notes that multiple servers can run on one machine.",
+      "knowledgeGap": null,
+      "misconception": null,
+      "misconceptionCode": null,
+      "responseType": "correct",
+      "understandingLevel": 100,
+      "seemsCorrect": true,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 1133,
+      "inputTokens": 708,
+      "outputTokens": 97
+    },
+    {
+      "understandingSummary": "The student correctly understands that a server is software that listens for network requests from clients, processes them, and returns responses.",
+      "knowledgeGap": null,
+      "misconception": null,
+      "misconceptionCode": null,
+      "responseType": "correct",
+      "understandingLevel": 100,
+      "seemsCorrect": true,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 26293,
+      "inputTokens": 708,
+      "outputTokens": 88
+    }
+  ],
+  "x02": [
+    {
+      "understandingSummary": "The student understands that an API allows two programs to communicate and correctly uses a weather app example, but incorrectly believes the API itself stores the data.",
+      "knowledgeGap": "The distinction between an API as an interface/intermediary and a database as the actual data storage.",
+      "misconception": "Believes an API is where data is kept and that the app is reading straight from it, confusing an API with a database.",
+      "misconceptionCode": "API_IS_DATABASE",
+      "responseType": "misconception",
+      "understandingLevel": 75,
+      "seemsCorrect": false,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 4949,
+      "inputTokens": 698,
+      "outputTokens": 143
+    },
+    {
+      "understandingSummary": "The student understands that an API allows two different programs to communicate with each other using a set of rules and gives a good real-world example. However, they incorrectly believe that the API itself stores the data.",
+      "knowledgeGap": null,
+      "misconception": "The student believes that an API is where data is actually kept and that the app is reading straight from the API like a database.",
+      "misconceptionCode": "API_IS_DATABASE",
+      "responseType": "misconception",
+      "understandingLevel": 75,
+      "seemsCorrect": false,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 909,
+      "inputTokens": 698,
+      "outputTokens": 137
+    },
+    {
+      "understandingSummary": "The student understands that an API allows two programs to communicate using a set of rules and correctly provides an example involving a weather app.",
+      "knowledgeGap": "Could more clearly emphasize that an API is an interface for communication rather than the actual storage layer.",
+      "misconception": "The student believes that the API is where all the weather data is kept and that the app is reading straight from it, confusing the API with a database.",
+      "misconceptionCode": "API_IS_DATABASE",
+      "responseType": "misconception",
+      "understandingLevel": 70,
+      "seemsCorrect": false,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 1456,
+      "inputTokens": 698,
+      "outputTokens": 144
+    }
+  ],
+  "x03": [
+    {
+      "understandingSummary": "The student clearly distinguishes between authentication and authorization, explaining that authentication verifies identity while authorization determines permissions.",
+      "knowledgeGap": null,
+      "misconception": null,
+      "misconceptionCode": null,
+      "responseType": "correct",
+      "understandingLevel": 100,
+      "seemsCorrect": true,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 872,
+      "inputTokens": 678,
+      "outputTokens": 83
+    },
+    {
+      "understandingSummary": "The student clearly distinguishes authentication as verifying identity and authorization as determining permissions, providing good real-world examples for both.",
+      "knowledgeGap": null,
+      "misconception": null,
+      "misconceptionCode": null,
+      "responseType": "correct",
+      "understandingLevel": 100,
+      "seemsCorrect": true,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 904,
+      "inputTokens": 678,
+      "outputTokens": 87
+    },
+    {
+      "understandingSummary": "The student clearly differentiates authentication as verifying identity and authorization as determining permissions, providing good real-world examples for both.",
+      "knowledgeGap": null,
+      "misconception": null,
+      "misconceptionCode": null,
+      "responseType": "correct",
+      "understandingLevel": 100,
+      "seemsCorrect": true,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 976,
+      "inputTokens": 678,
+      "outputTokens": 87
+    }
+  ],
+  "x04": [
+    {
+      "understandingSummary": "The student understands that authentication is related to security and login pages, and mentions multi-factor authentication concepts like text codes.",
+      "knowledgeGap": "The student lacks a clear, concise definition that authentication is the process of verifying a user's identity.",
+      "misconception": null,
+      "misconceptionCode": null,
+      "responseType": "partial",
+      "understandingLevel": 50,
+      "seemsCorrect": false,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 1369,
+      "inputTokens": 668,
+      "outputTokens": 107
+    },
+    {
+      "understandingSummary": "The student understands that authentication is related to website security and login pages, and mentions multi-factor authentication concepts like text codes.",
+      "knowledgeGap": "Does not explicitly define authentication as the process of verifying a user's identity.",
+      "misconception": null,
+      "misconceptionCode": null,
+      "responseType": "partial",
+      "understandingLevel": 50,
+      "seemsCorrect": false,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 3781,
+      "inputTokens": 668,
+      "outputTokens": 103
+    },
+    {
+      "understandingSummary": "The student understands that authentication is a security measure involving login pages and account protection, even mentioning two-factor authentication via text messages.",
+      "knowledgeGap": "The student lacks a clear, precise definition that authentication specifically verifies a user's identity.",
+      "misconception": null,
+      "misconceptionCode": null,
+      "responseType": "partial",
+      "understandingLevel": 50,
+      "seemsCorrect": false,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 1410,
+      "inputTokens": 668,
+      "outputTokens": 106
+    }
+  ],
+  "x05": [
+    {
+      "understandingSummary": "The student correctly identifies that web browsers act as clients and interact with servers, but incorrectly frames the client as a passive entity that only receives pushed information rather than initiating requests.",
+      "knowledgeGap": "Understanding that clients actively request resources or services from servers.",
+      "misconception": "The student believes that the server initiates communication by pushing information rather than the client requesting it.",
+      "misconceptionCode": "CLIENT_SERVER_REVERSED",
+      "responseType": "misconception",
+      "understandingLevel": 40,
+      "seemsCorrect": false,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 949,
+      "inputTokens": 679,
+      "outputTokens": 133
+    },
+    {
+      "understandingSummary": "The student correctly identifies that web browsers act as clients and interact with servers, but incorrectly describes the core mechanism by claiming the server pushes information rather than the client initiating requests.",
+      "knowledgeGap": "The concept that clients must initiate requests to servers to receive data.",
+      "misconception": "The student believes the server initiates the communication and pushes information to passive clients.",
+      "misconceptionCode": "CLIENT_SERVER_REVERSED",
+      "responseType": "misconception",
+      "understandingLevel": 40,
+      "seemsCorrect": false,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 1416,
+      "inputTokens": 679,
+      "outputTokens": 132
+    },
+    {
+      "understandingSummary": "The student correctly identifies web browsers as an example of a client, but incorrectly describes the client-server interaction as entirely push-based rather than request-driven.",
+      "knowledgeGap": "Understanding that clients initiate the communication by sending requests to the server.",
+      "misconception": "Believes that the server initiates communication by pushing information and pages to the client.",
+      "misconceptionCode": "CLIENT_SERVER_REVERSED",
+      "responseType": "misconception",
+      "understandingLevel": 40,
+      "seemsCorrect": false,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 878,
+      "inputTokens": 679,
+      "outputTokens": 131
+    }
+  ],
+  "x06": [
+    {
+      "understandingSummary": "The student correctly identifies GET as the HTTP method used to retrieve data and provides accurate context about how browsers use it and its safe nature.",
+      "knowledgeGap": null,
+      "misconception": null,
+      "misconceptionCode": null,
+      "responseType": "correct",
+      "understandingLevel": 100,
+      "seemsCorrect": true,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 4046,
+      "inputTokens": 665,
+      "outputTokens": 91
+    },
+    {
+      "understandingSummary": "The student correctly identifies GET as the standard HTTP method used to retrieve data and provides accurate context about how browsers use it and its safe, non-mutating nature.",
+      "knowledgeGap": null,
+      "misconception": null,
+      "misconceptionCode": null,
+      "responseType": "correct",
+      "understandingLevel": 100,
+      "seemsCorrect": true,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 948,
+      "inputTokens": 665,
+      "outputTokens": 97
+    },
+    {
+      "understandingSummary": "The student correctly identifies GET as the primary HTTP method used to retrieve data and accurately describes its use cases and safety properties compared to POST.",
+      "knowledgeGap": null,
+      "misconception": null,
+      "misconceptionCode": null,
+      "responseType": "correct",
+      "understandingLevel": 100,
+      "seemsCorrect": true,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 847,
+      "inputTokens": 665,
+      "outputTokens": 91
+    }
+  ],
+  "x07": [
+    {
+      "understandingSummary": "The student correctly understands that authorization determines what actions a user can take (like viewing or editing), but incorrectly believes that password strength dictates permission levels.",
+      "knowledgeGap": "The distinction between authentication (verifying identity, often via passwords) and authorization (assigning permissions and roles).",
+      "misconception": "The student believes that a stronger password gives a user more permissions.",
+      "misconceptionCode": null,
+      "responseType": "misconception",
+      "understandingLevel": 50,
+      "seemsCorrect": false,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 5885,
+      "inputTokens": 675,
+      "outputTokens": 128
+    },
+    {
+      "understandingSummary": "The student understands that authorization controls what an authenticated user is allowed to do, such as viewing versus editing documents.",
+      "knowledgeGap": "The distinction between authorization and authentication mechanisms.",
+      "misconception": "The student incorrectly believes that a stronger password grants more permissions, confusing authentication credentials with authorization rules.",
+      "misconceptionCode": null,
+      "responseType": "misconception",
+      "understandingLevel": 50,
+      "seemsCorrect": false,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 1794,
+      "inputTokens": 675,
+      "outputTokens": 112
+    },
+    {
+      "understandingSummary": "The student understands that authorization controls what an authenticated user is allowed to do, but incorrectly believes that authorization permissions are determined by password strength.",
+      "knowledgeGap": "Does not understand that authorization is managed through access control rules, permissions, or roles assigned by the system rather than password strength.",
+      "misconception": "Believes that password strength directly determines a user's permissions.",
+      "misconceptionCode": null,
+      "responseType": "misconception",
+      "understandingLevel": 50,
+      "seemsCorrect": false,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 12662,
+      "inputTokens": 675,
+      "outputTokens": 128
+    }
+  ],
+  "x08": [
+    {
+      "understandingSummary": "The student correctly identifies username and password authentication with hashing and mentions multi-factor authentication.",
+      "knowledgeGap": null,
+      "misconception": null,
+      "misconceptionCode": null,
+      "responseType": "correct",
+      "understandingLevel": 100,
+      "seemsCorrect": true,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 1754,
+      "inputTokens": 663,
+      "outputTokens": 81
+    },
+    {
+      "understandingSummary": "The student correctly identifies username and password authentication with hashing and server-side verification, and even correctly mentions multi-factor authentication.",
+      "knowledgeGap": null,
+      "misconception": null,
+      "misconceptionCode": null,
+      "responseType": "correct",
+      "understandingLevel": 100,
+      "seemsCorrect": true,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 6039,
+      "inputTokens": 663,
+      "outputTokens": 89
+    },
+    {
+      "understandingSummary": "The student correctly identifies username and password authentication with hashing and mentions multi-factor authentication.",
+      "knowledgeGap": null,
+      "misconception": null,
+      "misconceptionCode": null,
+      "responseType": "correct",
+      "understandingLevel": 100,
+      "seemsCorrect": true,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 1245,
+      "inputTokens": 663,
+      "outputTokens": 81
+    }
+  ],
+  "x09": [
+    {
+      "understandingSummary": "The student correctly understands that REST uses URLs (URIs) to identify resources and mentions that HTTP methods determine the action.",
+      "knowledgeGap": null,
+      "misconception": null,
+      "misconceptionCode": null,
+      "responseType": "correct",
+      "understandingLevel": 100,
+      "seemsCorrect": true,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 37646,
+      "inputTokens": 651,
+      "outputTokens": 88
+    },
+    {
+      "understandingSummary": "The student correctly explains that REST uses URLs (URIs) to identify resources and notes that HTTP methods define the actions performed on those resources.",
+      "knowledgeGap": null,
+      "misconception": null,
+      "misconceptionCode": null,
+      "responseType": "correct",
+      "understandingLevel": 100,
+      "seemsCorrect": true,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 1140,
+      "inputTokens": 651,
+      "outputTokens": 92
+    },
+    {
+      "understandingSummary": "The student correctly understands that REST uses URLs (URIs) to identify resources and mentions how HTTP methods define actions on those resources.",
+      "knowledgeGap": null,
+      "misconception": null,
+      "misconceptionCode": null,
+      "responseType": "correct",
+      "understandingLevel": 100,
+      "seemsCorrect": true,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 848,
+      "inputTokens": 651,
+      "outputTokens": 90
+    }
+  ],
+  "x10": [
+    {
+      "understandingSummary": "The student understands that an API defines how software systems communicate, acting as a contract for requests and responses, and correctly uses a payments example to illustrate its abstract nature.",
+      "knowledgeGap": null,
+      "misconception": null,
+      "misconceptionCode": null,
+      "responseType": "correct",
+      "understandingLevel": 100,
+      "seemsCorrect": true,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 32526,
+      "inputTokens": 679,
+      "outputTokens": 97
+    },
+    {
+      "understandingSummary": "The student understands that an API defines how software systems communicate, using a contract-like approach with requests and responses, and provides a clear example.",
+      "knowledgeGap": null,
+      "misconception": null,
+      "misconceptionCode": null,
+      "responseType": "correct",
+      "understandingLevel": 100,
+      "seemsCorrect": true,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 655,
+      "inputTokens": 679,
+      "outputTokens": 93
+    },
+    {
+      "understandingSummary": "The student understands that an API defines how software systems communicate, acting as a contract for requests, responses, and actions.",
+      "knowledgeGap": null,
+      "misconception": null,
+      "misconceptionCode": null,
+      "responseType": "correct",
+      "understandingLevel": 100,
+      "seemsCorrect": true,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 927,
+      "inputTokens": 679,
+      "outputTokens": 88
+    }
+  ],
+  "m01": [
+    {
+      "understandingSummary": "The student correctly understands that a server listens for requests and sends back responses, but incorrectly believes it must be a special physical machine in a data center.",
+      "knowledgeGap": "Does not understand that a server is primarily a software role that can run on any computer, including a standard laptop.",
+      "misconception": "Believes a server must be a special physical machine rather than a role any program can play.",
+      "misconceptionCode": "SERVER_IS_HARDWARE_ONLY",
+      "responseType": "misconception",
+      "understandingLevel": 60,
+      "seemsCorrect": false,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 1056,
+      "inputTokens": 658,
+      "outputTokens": 143
+    },
+    {
+      "understandingSummary": "The student correctly understands that a server listens for requests and sends back responses, but incorrectly believes it must be a special physical machine.",
+      "knowledgeGap": null,
+      "misconception": "Believes a server must be a special physical machine in a data center and that a regular laptop cannot act as a server.",
+      "misconceptionCode": "SERVER_IS_HARDWARE_ONLY",
+      "responseType": "misconception",
+      "understandingLevel": 60,
+      "seemsCorrect": false,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 938,
+      "inputTokens": 658,
+      "outputTokens": 123
+    },
+    {
+      "understandingSummary": "The student correctly understands that a server listens for requests and sends back responses, but incorrectly believes it must be a special physical machine.",
+      "knowledgeGap": null,
+      "misconception": "Believes a server must be a special physical machine in a data center and that regular computers like laptops cannot act as servers.",
+      "misconceptionCode": "SERVER_IS_HARDWARE_ONLY",
+      "responseType": "misconception",
+      "understandingLevel": 60,
+      "seemsCorrect": false,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 787,
+      "inputTokens": 658,
+      "outputTokens": 123
+    }
+  ],
+  "m02": [
+    {
+      "understandingSummary": "The student correctly identifies that GET is used to retrieve data, but incorrectly believes that POST is also used for data retrieval and is just a more secure version of GET.",
+      "knowledgeGap": "Lack of understanding of the distinct, primary purposes of the GET and POST methods, specifically that POST is used to submit/create data rather than retrieve it.",
+      "misconception": "Believes that POST is used to retrieve data and is simply a more secure version of GET.",
+      "misconceptionCode": "GET_POST_CONFUSION",
+      "responseType": "misconception",
+      "understandingLevel": 40,
+      "seemsCorrect": false,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 1093,
+      "inputTokens": 626,
+      "outputTokens": 152
+    }
+  ],
+  "m03": [
+    {
+      "understandingSummary": "The student knows that a password can be used for authentication, but incorrectly believes that HTTPS encryption alone confirms a user's identity.",
+      "knowledgeGap": null,
+      "misconception": "Believes that encryption or HTTPS by itself verifies who the user is.",
+      "misconceptionCode": "ENCRYPTION_IS_AUTHENTICATION",
+      "responseType": "misconception",
+      "understandingLevel": 50,
+      "seemsCorrect": false,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 1121,
+      "inputTokens": 627,
+      "outputTokens": 112
+    }
+  ],
+  "m04": [
+    {
+      "understandingSummary": "The student understands that APIs allow different programs to communicate with each other, but incorrectly confuses the backend API with the user-facing graphical interface.",
+      "knowledgeGap": "The distinction between an API as a programmatic interface for software systems and a user interface for humans.",
+      "misconception": "Believes an API is the visual user interface with buttons that a user clicks.",
+      "misconceptionCode": "API_IS_UI",
+      "responseType": "misconception",
+      "understandingLevel": 40,
+      "seemsCorrect": false,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 984,
+      "inputTokens": 648,
+      "outputTokens": 131
+    }
+  ],
+  "m05": [
+    {
+      "understandingSummary": "The student correctly identifies the core difference between authentication and authorization in theory, but mistakenly claims they are always performed as a single step by the login system.",
+      "knowledgeGap": "Does not understand that authorization and authentication are typically separate architectural layers or checks occurring at different times.",
+      "misconception": "Believes that authentication and authorization are practically the same step because a single login system decides both.",
+      "misconceptionCode": "AUTHN_AUTHZ_CONFUSION",
+      "responseType": "misconception",
+      "understandingLevel": 60,
+      "seemsCorrect": false,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 12759,
+      "inputTokens": 649,
+      "outputTokens": 139
+    }
+  ],
+  "m06": [
+    {
+      "understandingSummary": "The student initially thought of POST, but self-corrected and correctly identified GET as the HTTP method used to retrieve data.",
+      "knowledgeGap": null,
+      "misconception": null,
+      "misconceptionCode": null,
+      "responseType": "correct",
+      "understandingLevel": 100,
+      "seemsCorrect": true,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 749,
+      "inputTokens": 625,
+      "outputTokens": 88
+    }
+  ],
+  "h01": [
+    {
+      "understandingSummary": "The student correctly identified that HTTP stands for HyperText Transfer Protocol, though they expressed mild uncertainty about the first word.",
+      "knowledgeGap": null,
+      "misconception": null,
+      "misconceptionCode": null,
+      "responseType": "correct",
+      "understandingLevel": 100,
+      "seemsCorrect": true,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 779,
+      "inputTokens": 628,
+      "outputTokens": 87
+    }
+  ],
+  "h02": [
+    {
+      "understandingSummary": "The student correctly identifies that the GET method is used to retrieve data, despite some initial hesitation.",
+      "knowledgeGap": null,
+      "misconception": null,
+      "misconceptionCode": null,
+      "responseType": "correct",
+      "understandingLevel": 100,
+      "seemsCorrect": true,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 936,
+      "inputTokens": 628,
+      "outputTokens": 83
+    }
+  ],
+  "h03": [
+    {
+      "understandingSummary": "The student understands that authorization relates to user permissions and what they are allowed to do, but lacks the context of how it follows authentication.",
+      "knowledgeGap": "Does not explicitly mention that authorization applies to an already authenticated user.",
+      "misconception": null,
+      "misconceptionCode": null,
+      "responseType": "partial",
+      "understandingLevel": 80,
+      "seemsCorrect": true,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 1097,
+      "inputTokens": 638,
+      "outputTokens": 102
+    }
+  ],
+  "h04": [
+    {
+      "understandingSummary": "The student understands the basic high-level concept that APIs allow different software programs to communicate with each other.",
+      "knowledgeGap": "The student is missing the technical detail that an API provides a defined interface for requesting and exchanging data.",
+      "misconception": null,
+      "misconceptionCode": null,
+      "responseType": "partial",
+      "understandingLevel": 60,
+      "seemsCorrect": true,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 1156,
+      "inputTokens": 640,
+      "outputTokens": 103
+    }
+  ],
+  "h05": [
+    {
+      "understandingSummary": "The student understands the general distinction that one concept relates to identity and the other relates to permissions, but cannot remember which term matches which concept.",
+      "knowledgeGap": "Cannot map the terms 'authentication' and 'authorization' to their respective definitions.",
+      "misconception": null,
+      "misconceptionCode": null,
+      "responseType": "partial",
+      "understandingLevel": 50,
+      "seemsCorrect": false,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 1122,
+      "inputTokens": 648,
+      "outputTokens": 106
+    }
+  ],
+  "h06": [
+    {
+      "understandingSummary": "The student intuitively grasps that a client is a requester of information, comparing it to a customer asking for things.",
+      "knowledgeGap": "Lacks the technical definition framing a client as a program or device.",
+      "misconception": null,
+      "misconceptionCode": null,
+      "responseType": "partial",
+      "understandingLevel": 70,
+      "seemsCorrect": true,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 735,
+      "inputTokens": 641,
+      "outputTokens": 99
+    }
+  ],
+  "h07": [
+    {
+      "understandingSummary": "The student remembers that URLs are involved in REST resource identification, but is unsure and guesses IDs as well.",
+      "knowledgeGap": "The specific use of URIs/URLs as standard identifiers for REST resources.",
+      "misconception": null,
+      "misconceptionCode": null,
+      "responseType": "partial",
+      "understandingLevel": 50,
+      "seemsCorrect": false,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 697,
+      "inputTokens": 623,
+      "outputTokens": 98
+    }
+  ],
+  "h08": [
+    {
+      "understandingSummary": "The student knows that passwords are used for authentication, but is uncertain if there are other methods.",
+      "knowledgeGap": "Awareness of other authentication methods like multi-factor authentication, biometrics, or tokens.",
+      "misconception": null,
+      "misconceptionCode": null,
+      "responseType": "partial",
+      "understandingLevel": 70,
+      "seemsCorrect": true,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 723,
+      "inputTokens": 624,
+      "outputTokens": 99
+    }
+  ],
+  "h09": [
+    {
+      "understandingSummary": "The student admits they do not know what a server is and cannot explain the concept.",
+      "knowledgeGap": "Lacks the fundamental definition and role of a server in a networked application.",
+      "misconception": null,
+      "misconceptionCode": null,
+      "responseType": "incorrect",
+      "understandingLevel": 0,
+      "seemsCorrect": false,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 691,
+      "inputTokens": 643,
+      "outputTokens": 93
+    }
+  ],
+  "o01": [
+    {
+      "understandingSummary": "The student correctly identifies that HTTP stands for HyperText Transfer Protocol, but exaggerates its role by claiming it is the internet itself and that the internet cannot exist without it.",
+      "knowledgeGap": "Lack of precise understanding about what HTTP actually is (a specific communication protocol for the web rather than the entire internet infrastructure).",
+      "misconception": null,
+      "misconceptionCode": null,
+      "responseType": "partial",
+      "understandingLevel": 70,
+      "seemsCorrect": true,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 1016,
+      "inputTokens": 629,
+      "outputTokens": 121
+    }
+  ],
+  "o02": [
+    {
+      "understandingSummary": "The student knows that REST APIs deal with data formatting like JSON, but incorrectly believes that REST uses JSON payload data rather than URIs to identify resources.",
+      "knowledgeGap": "Does not know that REST uses Uniform Resource Identifiers (URIs) or URLs to identify resources.",
+      "misconception": "Believes that REST APIs must use JSON and that resources are identified by the JSON data in the request.",
+      "misconceptionCode": null,
+      "responseType": "incorrect",
+      "understandingLevel": 20,
+      "seemsCorrect": false,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 1076,
+      "inputTokens": 630,
+      "outputTokens": 132
+    }
+  ],
+  "o03": [
+    {
+      "understandingSummary": "The student understands that authorization involves deciding what resources a user can access, but incorrectly believes it only applies to administrators.",
+      "knowledgeGap": "Does not understand that authorization applies to all authenticated users, not just admins.",
+      "misconception": "Believes that normal users do not go through authorization and that it is exclusively for administrators.",
+      "misconceptionCode": null,
+      "responseType": "misconception",
+      "understandingLevel": 40,
+      "seemsCorrect": false,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 6872,
+      "inputTokens": 638,
+      "outputTokens": 119
+    }
+  ],
+  "o04": [
+    {
+      "understandingSummary": "The student correctly understands that authentication verifies a user's identity, but incorrectly believes that authentication carries over automatically to every other website.",
+      "knowledgeGap": "Does not understand that authentication is typically session-based and scoped to individual websites or applications.",
+      "misconception": null,
+      "misconceptionCode": null,
+      "responseType": "partial",
+      "understandingLevel": 60,
+      "seemsCorrect": false,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 857,
+      "inputTokens": 636,
+      "outputTokens": 106
+    }
+  ],
+  "o05": [
+    {
+      "understandingSummary": "The student understands that a server sends responses to clients, but incorrectly believes that servers can only handle one client at a time.",
+      "knowledgeGap": "Lacks understanding of concurrency and how servers handle multiple client connections simultaneously.",
+      "misconception": "Believes that servers are restricted to communicating with only one client at a time.",
+      "misconceptionCode": null,
+      "responseType": "misconception",
+      "understandingLevel": 40,
+      "seemsCorrect": false,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 1298,
+      "inputTokens": 658,
+      "outputTokens": 118
+    }
+  ],
+  "o06": [
+    {
+      "understandingSummary": "The student correctly identifies GET as a common HTTP method used to retrieve data, but holds an incorrect belief that GET requests cannot include parameters.",
+      "knowledgeGap": "Understanding that GET requests can include query parameters in the URL.",
+      "misconception": "Believes that GET requests cannot include any parameters and that a different method must be used for searching.",
+      "misconceptionCode": null,
+      "responseType": "misconception",
+      "understandingLevel": 70,
+      "seemsCorrect": true,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 1298,
+      "inputTokens": 634,
+      "outputTokens": 122
+    }
+  ],
+  "o07": [
+    {
+      "understandingSummary": "The student knows that APIs are related to software development and applications, but incorrectly defines them as a programming language like Python or Java.",
+      "knowledgeGap": "Does not understand that an API is an interface for communication between different software systems rather than a programming language.",
+      "misconception": "Believes that an API is a programming language used for building applications.",
+      "misconceptionCode": null,
+      "responseType": "incorrect",
+      "understandingLevel": 10,
+      "seemsCorrect": false,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 971,
+      "inputTokens": 641,
+      "outputTokens": 122
+    }
+  ],
+  "o08": [
+    {
+      "understandingSummary": "The student attempts to distinguish authentication from authorization by linking them to client and server locations.",
+      "knowledgeGap": "The student lacks the core definitions of authentication (verifying identity) and authorization (verifying permissions).",
+      "misconception": "The student incorrectly believes the entire difference between authentication and authorization is that one happens on the client and the other on the server.",
+      "misconceptionCode": null,
+      "responseType": "incorrect",
+      "understandingLevel": 10,
+      "seemsCorrect": false,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 1048,
+      "inputTokens": 636,
+      "outputTokens": 124
+    }
+  ],
+  "i01": [
+    {
+      "understandingSummary": "The student correctly identifies that a client is the browser or phone app that makes requests to a server.",
+      "knowledgeGap": null,
+      "misconception": null,
+      "misconceptionCode": null,
+      "responseType": "correct",
+      "understandingLevel": 90,
+      "seemsCorrect": true,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 8794,
+      "inputTokens": 636,
+      "outputTokens": 83
+    }
+  ],
+  "i02": [
+    {
+      "understandingSummary": "The student understands that authentication is the process of verifying a user's identity, correctly giving examples like a password or face ID.",
+      "knowledgeGap": null,
+      "misconception": null,
+      "misconceptionCode": null,
+      "responseType": "correct",
+      "understandingLevel": 100,
+      "seemsCorrect": true,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 918,
+      "inputTokens": 624,
+      "outputTokens": 90
+    }
+  ],
+  "i03": [
+    {
+      "understandingSummary": "The student correctly distinguishes between authentication (who you are) and authorization (what you can do) using common abbreviations.",
+      "knowledgeGap": null,
+      "misconception": null,
+      "misconceptionCode": null,
+      "responseType": "correct",
+      "understandingLevel": 100,
+      "seemsCorrect": true,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 1011,
+      "inputTokens": 634,
+      "outputTokens": 87
+    }
+  ],
+  "i04": [
+    {
+      "understandingSummary": "The student associates an API with managing app information, but completely confuses it with a database.",
+      "knowledgeGap": "Does not understand that an API is an interface for communication between different software systems.",
+      "misconception": "Believes an API is where data is stored rather than a communication interface.",
+      "misconceptionCode": "API_IS_DATABASE",
+      "responseType": "misconception",
+      "understandingLevel": 10,
+      "seemsCorrect": false,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 920,
+      "inputTokens": 637,
+      "outputTokens": 117
+    }
+  ],
+  "i05": [
+    {
+      "understandingSummary": "The student knows that HTTP methods are used to interact with data on a server, but they confuse which method is responsible for retrieving it.",
+      "knowledgeGap": "Does not know the specific HTTP method designated for data retrieval.",
+      "misconception": "Believes that POST is used to retrieve data from the server.",
+      "misconceptionCode": "GET_POST_CONFUSION",
+      "responseType": "misconception",
+      "understandingLevel": 30,
+      "seemsCorrect": false,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 975,
+      "inputTokens": 615,
+      "outputTokens": 121
+    }
+  ],
+  "i06": [
+    {
+      "understandingSummary": "The student associates a server with hosting a website, but believes it requires specialized physical hardware.",
+      "knowledgeGap": "Does not realize that any standard computer running the appropriate software can act as a server.",
+      "misconception": "Believes a server must be a special physical machine rather than a role or program.",
+      "misconceptionCode": "SERVER_IS_HARDWARE_ONLY",
+      "responseType": "misconception",
+      "understandingLevel": 30,
+      "seemsCorrect": false,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 799,
+      "inputTokens": 647,
+      "outputTokens": 123
+    }
+  ],
+  "p01": [
+    {
+      "understandingSummary": "The student correctly states that the statement is false and accurately explains that the client initiates the conversation by sending a request to the server.",
+      "knowledgeGap": null,
+      "misconception": null,
+      "misconceptionCode": null,
+      "responseType": "correct",
+      "understandingLevel": 100,
+      "seemsCorrect": true,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 35625,
+      "inputTokens": 650,
+      "outputTokens": 90
+    }
+  ],
+  "p02": [
+    {
+      "understandingSummary": "The student understands that the server is involved in delivering the website to the client, but believes that the server is the one that initiates the conversation.",
+      "knowledgeGap": "Does not know that the client must first send a request before the server can respond.",
+      "misconception": "The student believes that the server always reaches out first to the client.",
+      "misconceptionCode": "CLIENT_SERVER_REVERSED",
+      "responseType": "misconception",
+      "understandingLevel": 20,
+      "seemsCorrect": false,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 1003,
+      "inputTokens": 649,
+      "outputTokens": 130
+    }
+  ],
+  "p03": [
+    {
+      "understandingSummary": "The student correctly states that HTTP is a protocol rather than a programming language, and explains that developers use other languages like JavaScript to write code.",
+      "knowledgeGap": null,
+      "misconception": null,
+      "misconceptionCode": null,
+      "responseType": "correct",
+      "understandingLevel": 100,
+      "seemsCorrect": true,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 851,
+      "inputTokens": 662,
+      "outputTokens": 92
+    }
+  ],
+  "p04": [
+    {
+      "understandingSummary": "The student associates HTTP with building web pages, linking it incorrectly to web development and styling languages like CSS.",
+      "knowledgeGap": "Does not understand that HTTP is a communication protocol rather than a programming or markup language.",
+      "misconception": "Believes HTTP is a language used to write web pages rather than a set of rules for exchanging data between clients and servers.",
+      "misconceptionCode": "HTTP_IS_LANGUAGE",
+      "responseType": "misconception",
+      "understandingLevel": 10,
+      "seemsCorrect": false,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 975,
+      "inputTokens": 645,
+      "outputTokens": 131
+    }
+  ],
+  "p05": [
+    {
+      "understandingSummary": "The student correctly identifies that the GET method should be used to read data without making any changes.",
+      "knowledgeGap": null,
+      "misconception": null,
+      "misconceptionCode": null,
+      "responseType": "correct",
+      "understandingLevel": 100,
+      "seemsCorrect": true,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 5232,
+      "inputTokens": 644,
+      "outputTokens": 83
+    }
+  ],
+  "p06": [
+    {
+      "understandingSummary": "The student correctly distinguishes between an API, which allows programs to communicate behind the scenes, and a user interface, which is what humans interact with visually.",
+      "knowledgeGap": null,
+      "misconception": null,
+      "misconceptionCode": null,
+      "responseType": "correct",
+      "understandingLevel": 100,
+      "seemsCorrect": true,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 1028,
+      "inputTokens": 660,
+      "outputTokens": 94
+    }
+  ],
+  "p07": [
+    {
+      "understandingSummary": "The student knows that HTTPS provides a verified, secure connection, but incorrectly believes this connection security also proves the identity of the individual user.",
+      "knowledgeGap": "The distinction between transport-layer security (protecting data in transit) and application-layer identity verification (authentication).",
+      "misconception": "Believes that having an HTTPS connection means the user's identity is automatically verified.",
+      "misconceptionCode": "ENCRYPTION_IS_AUTHENTICATION",
+      "responseType": "misconception",
+      "understandingLevel": 20,
+      "seemsCorrect": false,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 1503,
+      "inputTokens": 660,
+      "outputTokens": 139
+    }
+  ],
+  "p08": [
+    {
+      "understandingSummary": "The student correctly distinguishes between logging in (proving identity) and authorization (determining permissions to perform actions like deleting accounts).",
+      "knowledgeGap": null,
+      "misconception": null,
+      "misconceptionCode": null,
+      "responseType": "correct",
+      "understandingLevel": 100,
+      "seemsCorrect": true,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 850,
+      "inputTokens": 663,
+      "outputTokens": 88
+    }
+  ],
+  "p09": [
+    {
+      "understandingSummary": "The student understands that an API is involved in providing data when requested, but mistakenly believes that the API itself stores the data.",
+      "knowledgeGap": "Does not distinguish between the interface that requests/transfers data (API) and the underlying storage system (database).",
+      "misconception": "Believes the API holds and stores the application's data rather than acting as a messenger to a database.",
+      "misconceptionCode": "API_IS_DATABASE",
+      "responseType": "misconception",
+      "understandingLevel": 40,
+      "seemsCorrect": false,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 919,
+      "inputTokens": 654,
+      "outputTokens": 139
+    }
+  ],
+  "p10": [
+    {
+      "understandingSummary": "The student understands that servers handle requests, but incorrectly believes they require specialized, high-powered hardware.",
+      "knowledgeGap": "Does not realize that 'server' is a software role rather than a physical hardware classification.",
+      "misconception": "Believes a server must be a special physical machine and that a normal laptop lacks the capability to act as one.",
+      "misconceptionCode": "SERVER_IS_HARDWARE_ONLY",
+      "responseType": "misconception",
+      "understandingLevel": 10,
+      "seemsCorrect": false,
+      "warnings": [],
+      "model": "gemini-3.5-flash-lite",
+      "promptVersion": "v1",
+      "latencyMs": 1717,
+      "inputTokens": 664,
+      "outputTokens": 132
+    }
+  ]
+}

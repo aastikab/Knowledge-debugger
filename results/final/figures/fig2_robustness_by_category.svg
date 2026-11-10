@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="492" viewBox="0 0 760 492" font-family="Helvetica, Arial, sans-serif" role="img" aria-label="Robustness set (49 responses): response-type accuracy by category">
+<rect width="760" height="492" fill="#fcfcfb"/>
+<text x="16" y="28" font-size="16" font-weight="600" fill="#0b0b0b">Robustness set (49 responses): response-type accuracy by category</text>
+<rect x="16" y="44" width="12" height="12" rx="2" fill="#2a78d6"/>
+<text x="34" y="54" font-size="12" fill="#52514e">Baseline (right/wrong)</text>
+<rect x="191.2" y="44" width="12" height="12" rx="2" fill="#eb6834"/>
+<text x="209.2" y="54" font-size="12" fill="#52514e">LLM, prompt v1</text>
+<rect x="313.59999999999997" y="44" width="12" height="12" rx="2" fill="#1baf7a"/>
+<text x="331.59999999999997" y="54" font-size="12" fill="#52514e">LLM, prompt v2</text>
+<line x1="250" x2="250" y1="68" y2="462" stroke="#c3c2b7" stroke-width="1"/>
+<text x="250" y="478" font-size="11" fill="#898781" text-anchor="middle">0%</text>
+<line x1="360" x2="360" y1="68" y2="462" stroke="#e1e0d9" stroke-width="1"/>
+<text x="360" y="478" font-size="11" fill="#898781" text-anchor="middle">25%</text>
+<line x1="470" x2="470" y1="68" y2="462" stroke="#e1e0d9" stroke-width="1"/>
+<text x="470" y="478" font-size="11" fill="#898781" text-anchor="middle">50%</text>
+<line x1="580" x2="580" y1="68" y2="462" stroke="#e1e0d9" stroke-width="1"/>
+<text x="580" y="478" font-size="11" fill="#898781" text-anchor="middle">75%</text>
+<line x1="690" x2="690" y1="68" y2="462" stroke="#e1e0d9" stroke-width="1"/>
+<text x="690" y="478" font-size="11" fill="#898781" text-anchor="middle">100%</text>
+<text x="240" y="101" font-size="12" fill="#0b0b0b" text-anchor="end">Long (n=10)</text>
+<path d="M250,74 h260 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-260 z" fill="#2a78d6"><title>Baseline (right/wrong): 60.0%</title></path>
+<text x="519" y="85" font-size="11" fill="#52514e">60.0%</text>
+<path d="M250,90 h436 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-436 z" fill="#eb6834"><title>LLM, prompt v1: 100.0%</title></path>
+<text x="695" y="101" font-size="11" fill="#52514e">100.0%</text>
+<path d="M250,106 h436 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-436 z" fill="#1baf7a"><title>LLM, prompt v2: 100.0%</title></path>
+<text x="695" y="117" font-size="11" fill="#52514e">100.0%</text>
+<text x="240" y="165" font-size="12" fill="#0b0b0b" text-anchor="end">Mixed (n=6)</text>
+<path d="M250,138 h69.33333333333333 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-69.33333333333333 z" fill="#2a78d6"><title>Baseline (right/wrong): 16.7%</title></path>
+<text x="328.3333333333333" y="149" font-size="11" fill="#52514e">16.7%</text>
+<path d="M250,154 h436 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-436 z" fill="#eb6834"><title>LLM, prompt v1: 100.0%</title></path>
+<text x="695" y="165" font-size="11" fill="#52514e">100.0%</text>
+<path d="M250,170 h436 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-436 z" fill="#1baf7a"><title>LLM, prompt v2: 100.0%</title></path>
+<text x="695" y="181" font-size="11" fill="#52514e">100.0%</text>
+<text x="240" y="229" font-size="12" fill="#0b0b0b" text-anchor="end">Hedged (n=9)</text>
+<path d="M250,202 h240.44444444444446 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-240.44444444444446 z" fill="#2a78d6"><title>Baseline (right/wrong): 55.6%</title></path>
+<text x="499.44444444444446" y="213" font-size="11" fill="#52514e">55.6%</text>
+<path d="M250,218 h338.22222222222223 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-338.22222222222223 z" fill="#eb6834"><title>LLM, prompt v1: 77.8%</title></path>
+<text x="597.2222222222222" y="229" font-size="11" fill="#52514e">77.8%</text>
+<path d="M250,234 h338.22222222222223 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-338.22222222222223 z" fill="#1baf7a"><title>LLM, prompt v2: 77.8%</title></path>
+<text x="597.2222222222222" y="245" font-size="11" fill="#52514e">77.8%</text>
+<text x="240" y="293" font-size="12" fill="#0b0b0b" text-anchor="end">Out-of-catalog (n=8)</text>
+<text x="255" y="277" font-size="11" fill="#52514e">0.0%</text>
+<path d="M250,282 h161 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-161 z" fill="#eb6834"><title>LLM, prompt v1: 37.5%</title></path>
+<text x="420" y="293" font-size="11" fill="#52514e">37.5%</text>
+<path d="M250,298 h381 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-381 z" fill="#1baf7a"><title>LLM, prompt v2: 87.5%</title></path>
+<text x="640" y="309" font-size="11" fill="#52514e">87.5%</text>
+<text x="240" y="357" font-size="12" fill="#0b0b0b" text-anchor="end">Informal (n=6)</text>
+<path d="M250,330 h216 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-216 z" fill="#2a78d6"><title>Baseline (right/wrong): 50.0%</title></path>
+<text x="475" y="341" font-size="11" fill="#52514e">50.0%</text>
+<path d="M250,346 h436 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-436 z" fill="#eb6834"><title>LLM, prompt v1: 100.0%</title></path>
+<text x="695" y="357" font-size="11" fill="#52514e">100.0%</text>
+<path d="M250,362 h436 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-436 z" fill="#1baf7a"><title>LLM, prompt v2: 100.0%</title></path>
+<text x="695" y="373" font-size="11" fill="#52514e">100.0%</text>
+<text x="240" y="421" font-size="12" fill="#0b0b0b" text-anchor="end">Probe answers (n=10)</text>
+<path d="M250,394 h216 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-216 z" fill="#2a78d6"><title>Baseline (right/wrong): 50.0%</title></path>
+<text x="475" y="405" font-size="11" fill="#52514e">50.0%</text>
+<path d="M250,410 h436 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-436 z" fill="#eb6834"><title>LLM, prompt v1: 100.0%</title></path>
+<text x="695" y="421" font-size="11" fill="#52514e">100.0%</text>
+<path d="M250,426 h436 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-436 z" fill="#1baf7a"><title>LLM, prompt v2: 100.0%</title></path>
+<text x="695" y="437" font-size="11" fill="#52514e">100.0%</text>
+</svg>

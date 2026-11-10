@@ -11,23 +11,30 @@
  *   node scripts/evaluate.js --runs 1        # cheaper single run
  *   node scripts/evaluate.js --resume        # continue after a crash / rate limit
  *   node scripts/evaluate.js --mock          # no API calls; tests the pipeline only
+ *   node scripts/evaluate.js --dataset data/robustness_responses.json \
+ *        --scenarios data/robustness_scenarios.json --prompt v2 --out results/v2-robustness
  *
  * Options: --runs N, --delay-ms N (pause between API calls), --limit N
- * (only the first N responses), --out DIR, --resume, --mock
+ * (only the first N responses), --out DIR, --resume, --mock,
+ * --dataset FILE, --scenarios FILE, --prompt v1|v2
  */
 
 require('dotenv').config();
 const fs = require('fs');
+const crypto = require('crypto');
 const path = require('path');
 const pool = require('../src/db');
-const { analyzeWrittenAnswer } = require('../src/llm');
+const { analyzeWrittenAnswer, resolvePromptVersion } = require('../src/llm');
 const { loadCurriculum, toPromptCatalog } = require('../src/curriculum');
 const ev = require('../src/evaluation');
 
 const ROOT = path.join(__dirname, '..');
 
 function parseArgs(argv) {
-  const args = { runs: 3, delayMs: 4000, limit: null, out: null, resume: false, mock: false };
+  const args = {
+    runs: 3, delayMs: 4000, limit: null, out: null, resume: false, mock: false,
+    dataset: 'data/eval_responses.json', scenarios: 'data/eval_scenarios.json', prompt: null,
+  };
   for (let i = 0; i < argv.length; i++) {
     const flag = argv[i];
     if (flag === '--runs') args.runs = Number(argv[++i]);
@@ -36,11 +43,15 @@ function parseArgs(argv) {
     else if (flag === '--out') args.out = argv[++i];
     else if (flag === '--resume') args.resume = true;
     else if (flag === '--mock') args.mock = true;
+    else if (flag === '--dataset') args.dataset = argv[++i];
+    else if (flag === '--scenarios') args.scenarios = argv[++i];
+    else if (flag === '--prompt') args.prompt = argv[++i];
     else throw new Error(`Unknown option: ${flag}`);
   }
   // Mock output goes to its own folder so it is never mistaken for real results
   args.out = path.resolve(ROOT, args.out || (args.mock ? 'results-mock' : 'results'));
   if (args.mock) args.delayMs = 0;
+  args.prompt = resolvePromptVersion(args.prompt);
   return args;
 }
 
@@ -64,15 +75,16 @@ async function mockAnalyze() {
   };
 }
 
-// Retry a few times because free-tier APIs often return rate-limit errors
-async function analyzeWithRetry(analyze, input, attempts = 3) {
+// Retry with growing pauses because the API often returns rate-limit (429)
+// or overload (503) errors. Failed calls are recorded and do not count as runs.
+async function analyzeWithRetry(analyze, input, attempts = 6) {
   for (let i = 1; i <= attempts; i++) {
     try {
       return await analyze(input);
     } catch (error) {
       if (i === attempts) return { error: error.message };
-      console.warn(`  call failed (${error.message}); retrying in ${5 * i}s`);
-      await sleep(5000 * i);
+      console.warn(`  call failed (${error.message}); retrying in ${10 * i}s`);
+      await sleep(10000 * i);
     }
   }
 }
@@ -86,8 +98,9 @@ async function main() {
     throw new Error('No misconceptions found. Run sql/add_learner_model.sql first.');
   }
 
-  const dataset = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/eval_responses.json'), 'utf8'));
-  const { scenarios } = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/eval_scenarios.json'), 'utf8'));
+  const datasetText = fs.readFileSync(path.resolve(ROOT, args.dataset), 'utf8');
+  const dataset = JSON.parse(datasetText);
+  const { scenarios } = JSON.parse(fs.readFileSync(path.resolve(ROOT, args.scenarios), 'utf8'));
   const items = args.limit ? dataset.responses.slice(0, args.limit) : dataset.responses;
   const itemsById = Object.fromEntries(dataset.responses.map((item) => [item.id, item]));
 
@@ -103,6 +116,15 @@ async function main() {
   // ----- 1. Collect LLM runs (saved after every call) -----
   const rawPath = path.join(args.out, 'raw_runs.json');
   const raw = args.resume && fs.existsSync(rawPath) ? JSON.parse(fs.readFileSync(rawPath, 'utf8')) : {};
+  // Never mix prompt versions in one results folder (runs from before
+  // versioning existed were made with v1)
+  for (const runs of Object.values(raw)) {
+    for (const run of runs) {
+      if (!run.error && (run.promptVersion || 'v1') !== args.prompt) {
+        throw new Error(`${rawPath} holds ${run.promptVersion || 'v1'} runs; use --prompt ${run.promptVersion || 'v1'} or another --out folder.`);
+      }
+    }
+  }
   const analyze = args.mock ? mockAnalyze : analyzeWrittenAnswer;
 
   for (const item of items) {
@@ -119,6 +141,7 @@ async function main() {
         expectedAnswer: question.expected_answer,
         submittedAnswer: item.answer,
         misconceptionCatalog: catalog,
+        promptVersion: args.prompt,
       });
       raw[item.id].push(run);
       fs.writeFileSync(rawPath, JSON.stringify(raw, null, 2));
@@ -132,8 +155,13 @@ async function main() {
   }
 
   // ----- 2. Item-level comparison -----
-  const okRuns = Object.fromEntries(
+  // allRuns keeps every saved run (used for consistency); okRuns keeps only the
+  // first --runs runs so every response has the same weight in the metrics.
+  const allRuns = Object.fromEntries(
     items.map((item) => [item.id, (raw[item.id] || []).filter((r) => !r.error)])
+  );
+  const okRuns = Object.fromEntries(
+    Object.entries(allRuns).map(([id, runs]) => [id, runs.slice(0, args.runs)])
   );
   const failedCalls = items.reduce((n, item) => n + (raw[item.id] || []).filter((r) => r.error).length, 0);
 
@@ -160,9 +188,57 @@ async function main() {
   const inputTokens = llmRows.map((r) => r.raw.inputTokens).filter((v) => v != null);
   const outputTokens = llmRows.map((r) => r.raw.outputTokens).filter((v) => v != null);
 
+  // Item-level view: one prediction per response (majority vote over runs),
+  // used for confidence intervals and the paired significance test
+  const itemRows = items
+    .filter((item) => okRuns[item.id].length > 0)
+    .map((item) => {
+      const vote = ev.majorityVote(okRuns[item.id]);
+      const llm = { ...ev.llmPrediction(vote), agreement: vote.agreement };
+      const base = ev.baselinePrediction(item);
+      return {
+        item,
+        llm,
+        base,
+        llmTypeRight: llm.responseType === item.label,
+        baseTypeRight: base.responseType === item.label,
+        llmGapRight: llm.gapDetected === (item.label !== 'correct'),
+        baseGapRight: base.gapDetected === (item.label !== 'correct'),
+      };
+    });
+  const share = (rows, key) => (rows.length ? rows.filter((r) => r[key]).length / rows.length : null);
+  const ci = (key) => ev.bootstrapCI(itemRows, (sample) => share(sample, key));
+  const diffCi = (a, b) => ev.bootstrapCI(itemRows, (sample) => share(sample, a) - share(sample, b));
+
+  const itemLevel = {
+    n: itemRows.length,
+    baselineTypeAccuracy: share(itemRows, 'baseTypeRight'),
+    baselineTypeAccuracyCI: ci('baseTypeRight'),
+    llmTypeAccuracy: share(itemRows, 'llmTypeRight'),
+    llmTypeAccuracyCI: ci('llmTypeRight'),
+    typeAccuracyDifferenceCI: diffCi('llmTypeRight', 'baseTypeRight'),
+    typeMcNemar: ev.mcnemarExact(itemRows.map((r) => ({ a: r.baseTypeRight, b: r.llmTypeRight }))),
+    baselineGapAccuracy: share(itemRows, 'baseGapRight'),
+    baselineGapAccuracyCI: ci('baseGapRight'),
+    llmGapAccuracy: share(itemRows, 'llmGapRight'),
+    llmGapAccuracyCI: ci('llmGapRight'),
+    gapAccuracyDifferenceCI: diffCi('llmGapRight', 'baseGapRight'),
+    gapMcNemar: ev.mcnemarExact(itemRows.map((r) => ({ a: r.baseGapRight, b: r.llmGapRight }))),
+  };
+
+  // Label audit: items flagged as ambiguous are also reported separately
+  const ambiguous = items.filter((item) => item.ambiguous).map((item) => item.id);
+  const clearLlmRows = llmRows.filter((r) => !r.item.ambiguous);
+  const clearBaselineRows = baselineRows.filter((r) => !r.item.ambiguous);
+
+  const hasCategories = items.some((item) => item.category);
+
   const metrics = {
     generatedAt: new Date().toISOString(),
     mock: args.mock,
+    dataset: args.dataset,
+    datasetSha256: crypto.createHash('sha256').update(datasetText).digest('hex'),
+    promptVersion: args.prompt,
     model: llmRows[0] ? llmRows[0].raw.model : null,
     responses: items.length,
     runsPerResponse: args.runs,
@@ -171,7 +247,24 @@ async function main() {
     outputWarnings: llmRows.filter((r) => r.raw.warnings && r.raw.warnings.length).length,
     baseline: compare(baselineRows),
     llm: compare(llmRows),
-    consistency: ev.consistencyMetrics(okRuns),
+    itemLevel,
+    robustness: {
+      baseline: ev.robustnessMetrics(baselineRows),
+      llm: ev.robustnessMetrics(llmRows),
+    },
+    byCategory: hasCategories
+      ? {
+          baseline: ev.accuracyBy(baselineRows, (r) => r.item.category),
+          llm: ev.accuracyBy(llmRows, (r) => r.item.category),
+        }
+      : null,
+    labelAudit: {
+      ambiguousItems: ambiguous,
+      baselineTypeAccuracyExcludingAmbiguous: ev.accuracy(clearBaselineRows.map((r) => ({ truth: r.item.label, predicted: r.pred.responseType }))),
+      llmTypeAccuracyExcludingAmbiguous: ev.accuracy(clearLlmRows.map((r) => ({ truth: r.item.label, predicted: r.pred.responseType }))),
+      llmMisconceptionF1ExcludingAmbiguous: ev.misconceptionMetrics(clearLlmRows.map((r) => ({ truth: r.item.misconceptionCode, predicted: r.pred.misconceptionCode }))).f1,
+    },
+    consistency: ev.consistencyMetrics(allRuns),
     cost: {
       meanLatencyMs: ev.mean(latencies),
       medianLatencyMs: ev.median(latencies),
@@ -199,6 +292,8 @@ async function main() {
     llmConceptHitRate: hitRate('llm', 'conceptHit'),
     baselineProbeHitRate: hitRate('baseline', 'probeHit'),
     llmProbeHitRate: hitRate('llm', 'probeHit'),
+    baselineFalseProbeRate: hitRate('baseline', 'falseProbe'),
+    llmFalseProbeRate: hitRate('llm', 'falseProbe'),
   };
 
   // ----- 4. Write outputs -----
@@ -207,6 +302,8 @@ async function main() {
   writeCsv(path.join(args.out, 'item_results.csv'), llmRows.map((r) => ({
     responseId: r.item.id,
     run: r.run,
+    category: r.item.category || '',
+    ambiguous: Boolean(r.item.ambiguous),
     questionId: r.item.questionId,
     label: r.item.label,
     trueMisconception: r.item.misconceptionCode,
@@ -227,6 +324,7 @@ async function main() {
     .map((r) => ({
       responseId: r.item.id,
       run: r.run,
+      category: r.item.category || '',
       label: r.item.label,
       llmResponseType: r.raw.responseType,
       trueMisconception: r.item.misconceptionCode,
@@ -250,6 +348,7 @@ async function main() {
     llmRule: r.llm.rule,
     llmConceptHit: r.llm.conceptHit,
     llmProbeHit: r.llm.probeHit,
+    llmFalseProbe: r.llm.falseProbe,
     llmReason: r.llm.reason,
   })));
 
@@ -276,6 +375,8 @@ function writeCsv(filePath, rows) {
 }
 
 const pct = (value) => (value === null || value === undefined ? 'n/a' : `${(value * 100).toFixed(1)}%`);
+const range = (ci) => (ci ? `[${(ci[0] * 100).toFixed(1)}, ${(ci[1] * 100).toFixed(1)}]` : '');
+const pval = (p) => (p === null || p === undefined ? 'n/a' : p < 0.001 ? '< 0.001' : p.toFixed(3));
 const num = (value, digits = 1) => (value === null || value === undefined ? 'n/a' : value.toFixed(digits));
 
 function renderSummary(m, scenarioResults, conceptById) {
@@ -290,6 +391,7 @@ function renderSummary(m, scenarioResults, conceptById) {
   return `# Knowledge Debugger — Evaluation Results
 ${m.mock ? '\n> **MOCK RUN — pipeline test only. These numbers are not research results.**\n' : ''}
 Generated: ${m.generatedAt}
+Dataset: \`${m.dataset}\` (sha256 ${m.datasetSha256.slice(0, 12)}) · Prompt: ${m.promptVersion}
 Model: ${m.model} · Responses: ${m.responses} · Runs per response: ${m.runsPerResponse} · Successful LLM calls: ${m.successfulCalls} · Failed calls: ${m.failedCalls} · Outputs needing correction: ${m.outputWarnings}
 
 ## 1. Knowledge-gap and misconception detection
@@ -316,6 +418,43 @@ The baseline can only output "correct" or "incorrect" and cannot name a misconce
 |---|${labels.map(() => '---').join('|')}|
 ${confusionRows}
 
+### Item-level comparison with 95% confidence intervals
+
+One LLM prediction per response (majority vote over runs). Intervals are percentile bootstrap (2,000 resamples of responses, seed 42). p-values are from an exact two-sided McNemar test on the paired right/wrong outcomes.
+
+| Measure | Baseline | LLM-assisted | Difference (LLM − baseline) | McNemar p |
+|---|---|---|---|---|
+| Response-type accuracy | ${pct(m.itemLevel.baselineTypeAccuracy)} ${range(m.itemLevel.baselineTypeAccuracyCI)} | ${pct(m.itemLevel.llmTypeAccuracy)} ${range(m.itemLevel.llmTypeAccuracyCI)} | ${range(m.itemLevel.typeAccuracyDifferenceCI)} | ${pval(m.itemLevel.typeMcNemar.pValue)} |
+| Knowledge-gap detection accuracy | ${pct(m.itemLevel.baselineGapAccuracy)} ${range(m.itemLevel.baselineGapAccuracyCI)} | ${pct(m.itemLevel.llmGapAccuracy)} ${range(m.itemLevel.llmGapAccuracyCI)} | ${range(m.itemLevel.gapAccuracyDifferenceCI)} | ${pval(m.itemLevel.gapMcNemar.pValue)} |
+
+### Misconception handling
+
+| Measure | Baseline | LLM-assisted |
+|---|---|---|
+| Misconception responses recognized as misconceptions (any, incl. out-of-catalog) | ${pct(m.robustness.baseline.misconceptionTypeRecall)} | ${pct(m.robustness.llm.misconceptionTypeRecall)} |
+| False misconception rate (no false belief, but one reported) | ${pct(m.robustness.baseline.falseMisconceptionRate)} | ${pct(m.robustness.llm.falseMisconceptionRate)} |
+${m.robustness.llm.hedgedN ? `| False misconception rate on hedged answers (n=${m.robustness.baseline.hedgedN}) | ${pct(m.robustness.baseline.hedgedFalseMisconceptionRate)} | ${pct(m.robustness.llm.hedgedFalseMisconceptionRate)} |
+` : ''}${m.robustness.llm.outOfCatalogN ? `| Out-of-catalog (n=${m.robustness.baseline.outOfCatalogN}): gap detected | ${pct(m.robustness.baseline.outOfCatalogGapDetected)} | ${pct(m.robustness.llm.outOfCatalogGapDetected)} |
+| Out-of-catalog: flagged as misconception | ${pct(m.robustness.baseline.outOfCatalogFlaggedAsMisconception)} | ${pct(m.robustness.llm.outOfCatalogFlaggedAsMisconception)} |
+| Out-of-catalog: forced into a wrong catalog code | ${pct(m.robustness.baseline.outOfCatalogForcedFit)} | ${pct(m.robustness.llm.outOfCatalogForcedFit)} |
+` : ''}
+${m.byCategory ? `### Results by response category
+
+| Category | n | Baseline type acc. | LLM type acc. | Baseline gap acc. | LLM gap acc. |
+|---|---|---|---|---|---|
+${Object.keys(m.byCategory.baseline).map((c) => `| ${c} | ${m.byCategory.baseline[c].n} | ${pct(m.byCategory.baseline[c].responseTypeAccuracy)} | ${pct(m.byCategory.llm[c].responseTypeAccuracy)} | ${pct(m.byCategory.baseline[c].gapDetectionAccuracy)} | ${pct(m.byCategory.llm[c].gapDetectionAccuracy)} |`).join('\n')}
+
+LLM columns are pooled over runs.
+` : ''}
+${m.labelAudit.ambiguousItems.length ? `### Label audit
+
+Responses flagged as ambiguous during the label review: ${m.labelAudit.ambiguousItems.join(', ')}. Their labels were kept unchanged; results without them:
+
+| Measure | Baseline | LLM-assisted |
+|---|---|---|
+| Response-type accuracy excluding ambiguous items | ${pct(m.labelAudit.baselineTypeAccuracyExcludingAmbiguous)} | ${pct(m.labelAudit.llmTypeAccuracyExcludingAmbiguous)} |
+| Misconception identification F1 excluding ambiguous items | 0.000 | ${num(m.labelAudit.llmMisconceptionF1ExcludingAmbiguous, 3)} |
+` : ''}
 ## 2. Consistency of LLM assessments
 
 | Metric | Value |
@@ -341,14 +480,14 @@ ${confusionRows}
 
 A concept hit means the selected question targets the learner's real gap. A probe hit means it is the probe question for the learner's actual misconception.
 
-| Scenario | Score | Target | Baseline pick | Concept hit | LLM pick | Concept hit | Probe hit |
+| Scenario | Score | Target | Baseline pick | Concept hit | LLM pick | Concept hit | Probe hit / false probe |
 |---|---|---|---|---|---|---|---|
 ${scenarioResults
   .map(
     (r) =>
       `| ${r.scenarioId}: ${r.description} | ${r.baselineScore}% | ${conceptById[r.targetConceptId].name}${
         r.targetMisconceptionCode ? ` / ${r.targetMisconceptionCode}` : ''
-      } | Q${r.baseline.questionId} (${r.baseline.rule}) | ${yesNo(r.baseline.conceptHit)} | Q${r.llm.questionId} (${r.llm.rule}) | ${yesNo(r.llm.conceptHit)} | ${yesNo(r.llm.probeHit)} |`
+      } | Q${r.baseline.questionId} (${r.baseline.rule}) | ${yesNo(r.baseline.conceptHit)} | Q${r.llm.questionId} (${r.llm.rule}) | ${yesNo(r.llm.conceptHit)} | ${r.llm.probeHit !== null ? yesNo(r.llm.probeHit) : r.llm.falseProbe ? 'FALSE PROBE' : '–'} |`
   )
   .join('\n')}
 
@@ -356,6 +495,7 @@ ${scenarioResults
 |---|---|---|
 | Concept hit rate | ${pct(m.scenarios.baselineConceptHitRate)} | ${pct(m.scenarios.llmConceptHitRate)} |
 | Misconception probe hit rate | ${pct(m.scenarios.baselineProbeHitRate)} | ${pct(m.scenarios.llmProbeHitRate)} |
+| False probe rate (probe asked, learner has no catalog misconception) | ${pct(m.scenarios.baselineFalseProbeRate)} | ${pct(m.scenarios.llmFalseProbeRate)} |
 
 Scenarios evaluated: ${m.scenarios.evaluated} (skipped because of failed calls: ${m.scenarios.skipped})
 

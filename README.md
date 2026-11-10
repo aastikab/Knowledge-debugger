@@ -29,15 +29,22 @@ Knowledge-debugger/
 ├── package.json
 ├── README.md
 ├── data/
-│   ├── eval_responses.json    # 40 manually labeled student responses
-│   └── eval_scenarios.json    # 13 simulated learners for follow-up selection
+│   ├── eval_responses.json        # 40 manually labeled student responses
+│   ├── eval_scenarios.json        # 13 simulated learners for follow-up selection
+│   ├── robustness_responses.json  # 49 harder responses (long, mixed, hedged, out-of-catalog, informal, probe)
+│   └── robustness_scenarios.json  # 12 simulated learners built from the robustness set
+├── public/
+│   └── index.html             # Demo page (http://localhost:3000/app)
+├── results/                   # Experiment outputs (see "Evaluation")
 ├── scripts/
-│   └── evaluate.js            # Runs the baseline-vs-LLM experiment
+│   ├── evaluate.js            # Runs the baseline-vs-LLM experiment
+│   └── report.js              # Builds final tables and figures from all runs
 ├── sql/
 │   ├── schema.sql             # Full schema (fresh install)
 │   ├── seed.sql               # Concepts and base questions
 │   ├── add_analyses.sql       # Migration: analyses table
-│   └── add_learner_model.sql  # Migration: prerequisites, misconceptions, probe questions
+│   ├── add_learner_model.sql  # Migration: prerequisites, misconceptions, probe questions
+│   └── add_prompt_version.sql # Migration: records the prompt version of each analysis
 ├── src/
 │   ├── db.js                  # PostgreSQL connection pool
 │   ├── llm.js                 # Gemini analysis + output validation
@@ -70,7 +77,7 @@ npm install
 cp .env.example .env   # then fill in DB settings and GEMINI_API_KEY
 ```
 
-Optional `.env` settings: `GEMINI_MODEL` (default `gemini-3.5-flash-lite`) and `PORT` (default `3000`).
+Optional `.env` settings: `GEMINI_MODEL` (default `gemini-3.5-flash-lite`), `PROMPT_VERSION` (`v1` or `v2`, see below) and `PORT` (default `3000`).
 
 ### Fresh database
 
@@ -79,6 +86,7 @@ psql -U your_postgres_username -d postgres -c "CREATE DATABASE knowledge_debugge
 psql -U your_postgres_username -d knowledge_debugger -f sql/schema.sql
 psql -U your_postgres_username -d knowledge_debugger -f sql/seed.sql
 psql -U your_postgres_username -d knowledge_debugger -f sql/add_learner_model.sql
+psql -U your_postgres_username -d knowledge_debugger -f sql/add_prompt_version.sql
 ```
 
 ### Existing database (keeps your data)
@@ -86,6 +94,7 @@ psql -U your_postgres_username -d knowledge_debugger -f sql/add_learner_model.sq
 ```bash
 psql -U your_postgres_username -d knowledge_debugger -f sql/add_analyses.sql
 psql -U your_postgres_username -d knowledge_debugger -f sql/add_learner_model.sql
+psql -U your_postgres_username -d knowledge_debugger -f sql/add_prompt_version.sql
 ```
 
 Both migrations are safe to run more than once.
@@ -93,9 +102,11 @@ Both migrations are safe to run more than once.
 ## Running
 
 ```bash
-npm start        # API on http://localhost:3000
+npm start        # API on http://localhost:3000, demo page on http://localhost:3000/app
 npm test         # unit tests (no database or API key needed)
 ```
+
+The demo page sends each answer to both models (a right/wrong grade for the baseline, the written answer for the LLM) and shows their mastery estimates and next-question choices side by side.
 
 ## API Endpoints
 
@@ -112,6 +123,7 @@ npm test         # unit tests (no database or API key needed)
 | GET | `/analyses?learnerId=...` | LLM analysis history |
 | GET | `/learner-model/:learnerId` | Both learner models side by side |
 | GET | `/next-question/:learnerId?method=baseline\|llm` | Adaptive next question, with the rule and reason used |
+| DELETE | `/learners/:learnerId` | Delete one learner's attempts and analyses (demo reset) |
 
 ### Example: the same learner, two methods
 
@@ -146,6 +158,11 @@ Example LLM-method response for a learner whose authentication answer mixed up a
 3. If the target has a weak or untested prerequisite, check the prerequisite first.
 4. Ask the easiest unanswered question in that concept.
 
+## Prompt versions
+
+- **v1:** the prompt used in Progress Report 3.
+- **v2:** v1 plus rules for the v1 failure cases and harder answers: uncertainty is not a misconception; do not read a belief into a very short answer; judge the whole answer (a correct start followed by a false claim is a misconception, and a self-correction is judged by its final answer); report a misconception that is not in the catalog with `misconceptionCode: null` instead of forcing a code; ignore spelling and informal language.
+
 ## Evaluation
 
 The experiment uses a controlled dataset of 40 manually labeled responses: 4 per base question, labeled `correct`, `partial`, `incorrect`, or `misconception`. Each response also records the grade a binary right/wrong grader would give (`baselineCorrect`). Several responses are deliberately *correct-looking but flawed*, for example the right HTTP acronym followed by the claim that HTTP is a programming language.
@@ -156,6 +173,21 @@ npm run evaluate -- --runs 1        # cheaper
 npm run evaluate -- --resume        # continue after a rate limit / crash
 npm run evaluate -- --mock          # no API calls; tests the pipeline only
 ```
+
+Weeks 10–12 experiment (robustness set and prompt ablation):
+
+```bash
+npm run evaluate -- --prompt v2 --out results/v2-original
+npm run evaluate -- --dataset data/robustness_responses.json --scenarios data/robustness_scenarios.json --prompt v1 --out results/v1-robustness
+npm run evaluate -- --dataset data/robustness_responses.json --scenarios data/robustness_scenarios.json --prompt v2 --out results/v2-robustness
+npm run report                      # final tables + SVG figures in results/final/
+```
+
+A results folder never mixes prompt versions; `--resume` refuses to add v2 runs to a v1 folder.
+
+**Robustness set.** 49 responses in six categories: *long* (multi-sentence, some with a false belief buried at the end), *mixed* (a correct idea plus a wrong one, or a self-correction), *hedged* (uncertainty without a false belief), *out-of-catalog* (a real misconception that is not in the catalog, so the right code is `null`; several are near-misses of a catalog code), *informal* (typos, abbreviations), and *probe* (answers to the 8 probe questions). Each response has a written rationale. Labels were frozen before any LLM run; `metrics.json` records the dataset's SHA-256.
+
+**Label audit.** After Report 3, the two responses behind every LLM error (r14, r15) were reviewed and flagged `ambiguous` with a note. Their labels were not changed; results are reported with and without them.
 
 Outputs in `results/`:
 
@@ -176,13 +208,15 @@ Measures:
 - Misconception identification precision, recall, and F1
 - Consistency across repeated runs
 - Latency and token cost
-- Follow-up relevance: concept hit rate and misconception probe hit rate over 13 simulated learners
+- Follow-up relevance: concept hit rate, misconception probe hit rate, and false probe rate (a probe asked when the learner has no catalog misconception)
+- Item-level accuracy with 95% bootstrap confidence intervals and an exact McNemar test (baseline vs LLM, majority vote over runs)
+- Robustness: results by category, out-of-catalog detection, forced-fit rate (an out-of-catalog belief given a wrong catalog code), and false misconception rate on hedged answers
 
 ## Limitations
 
 - The labels and scenarios are written by the researcher, not collected from real students.
 - The baseline's correctness flag comes from a simulated binary grader.
-- The misconception catalog is small and fixed; misconceptions outside it can only appear in the free-text field.
+- The misconception catalog is small and fixed. Misconceptions outside it can be flagged (response type `misconception`, code `null`) and lower mastery, but they have no probe question.
 - LLM output is non-deterministic, which is why consistency is measured.
 
 ## Future Work

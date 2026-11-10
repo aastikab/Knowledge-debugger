@@ -1,6 +1,9 @@
 {
-  "generatedAt": "2026-10-27T16:58:54.102Z",
+  "generatedAt": "2026-11-10T17:07:41.816Z",
   "mock": false,
+  "dataset": "data/eval_responses.json",
+  "datasetSha256": "24a3fcf9f4d5a35092aa65013edaf7174ccba5d899caa8e3ee702b509c5f5d27",
+  "promptVersion": "v1",
   "model": "gemini-3.5-flash-lite",
   "responses": 40,
   "runsPerResponse": 3,
@@ -107,6 +110,79 @@
       }
     }
   },
+  "itemLevel": {
+    "n": 40,
+    "baselineTypeAccuracy": 0.5,
+    "baselineTypeAccuracyCI": [
+      0.35,
+      0.65
+    ],
+    "llmTypeAccuracy": 0.975,
+    "llmTypeAccuracyCI": [
+      0.925,
+      1
+    ],
+    "typeAccuracyDifferenceCI": [
+      0.30000000000000004,
+      0.6499999999999999
+    ],
+    "typeMcNemar": {
+      "b01": 20,
+      "b10": 1,
+      "pValue": 0.0000209808349609375
+    },
+    "baselineGapAccuracy": 0.8,
+    "baselineGapAccuracyCI": [
+      0.675,
+      0.9
+    ],
+    "llmGapAccuracy": 1,
+    "llmGapAccuracyCI": [
+      1,
+      1
+    ],
+    "gapAccuracyDifferenceCI": [
+      0.09999999999999998,
+      0.32499999999999996
+    ],
+    "gapMcNemar": {
+      "b01": 8,
+      "b10": 0,
+      "pValue": 0.0078125
+    }
+  },
+  "robustness": {
+    "baseline": {
+      "outOfCatalogN": 0,
+      "outOfCatalogFlaggedAsMisconception": null,
+      "outOfCatalogGapDetected": null,
+      "outOfCatalogForcedFit": null,
+      "falseMisconceptionRate": 0,
+      "hedgedN": 0,
+      "hedgedFalseMisconceptionRate": null,
+      "misconceptionTypeRecall": 0
+    },
+    "llm": {
+      "outOfCatalogN": 0,
+      "outOfCatalogFlaggedAsMisconception": null,
+      "outOfCatalogGapDetected": null,
+      "outOfCatalogForcedFit": null,
+      "falseMisconceptionRate": 0.05555555555555555,
+      "hedgedN": 0,
+      "hedgedFalseMisconceptionRate": null,
+      "misconceptionTypeRecall": 1
+    }
+  },
+  "byCategory": null,
+  "labelAudit": {
+    "ambiguousItems": [
+      "r14",
+      "r15"
+    ],
+    "baselineTypeAccuracyExcludingAmbiguous": 0.5,
+    "llmTypeAccuracyExcludingAmbiguous": 1,
+    "llmMisconceptionF1ExcludingAmbiguous": 1
+  },
   "consistency": {
     "itemsWithRepeats": 40,
     "meanResponseTypeAgreement": 0.9916666666666666,
@@ -128,6 +204,8 @@
     "baselineConceptHitRate": 0.7692307692307693,
     "llmConceptHitRate": 1,
     "baselineProbeHitRate": 0,
-    "llmProbeHitRate": 1
+    "llmProbeHitRate": 1,
+    "baselineFalseProbeRate": 0,
+    "llmFalseProbeRate": 0
   }
 }

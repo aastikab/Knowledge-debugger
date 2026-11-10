@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Knowledge Debugger</title>
+<style>
+  :root {
+    --bg: #f9f9f7; --card: #ffffff; --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
+    --line: #e1e0d9; --baseline: #2a78d6; --llm: #eb6834; --warn-bg: #fff4e5; --warn: #8a4b00;
+    --ok: #006300;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+  header { padding: 20px 24px 8px; }
+  header h1 { margin: 0; font-size: 22px; }
+  header p { margin: 4px 0 0; color: var(--ink-2); }
+  main { max-width: 1120px; margin: 0 auto; padding: 12px 24px 40px; display: grid; gap: 16px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; }
+  .card h2 { font-size: 15px; margin: 0 0 10px; }
+  label { display: block; font-size: 13px; color: var(--ink-2); margin: 10px 0 4px; }
+  input[type=text], select, textarea { width: 100%; padding: 8px 10px; border: 1px solid var(--line); border-radius: 6px; font: inherit; background: #fff; }
+  textarea { min-height: 84px; resize: vertical; }
+  .row { display: flex; gap: 12px; flex-wrap: wrap; align-items: end; }
+  .row > * { flex: 1 1 200px; }
+  .grade { display: flex; gap: 16px; margin-top: 6px; }
+  .grade label { display: inline-flex; gap: 6px; align-items: center; margin: 0; color: var(--ink); font-size: 14px; }
+  button { font: inherit; padding: 8px 14px; border-radius: 6px; border: 1px solid var(--ink); background: var(--ink); color: #fff; cursor: pointer; }
+  button.secondary { background: #fff; color: var(--ink); border-color: var(--line); }
+  button:disabled { opacity: .5; cursor: wait; }
+  .actions { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 760px) { .compare { grid-template-columns: 1fr; } }
+  .tag { display: inline-block; font-size: 12px; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--line); color: var(--ink-2); }
+  .swatch { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: 0; }
+  .bar-row { display: grid; grid-template-columns: 130px 1fr 44px; gap: 8px; align-items: center; font-size: 13px; margin: 6px 0; }
+  .track { height: 12px; background: #f1f0ec; border-radius: 0 4px 4px 0; position: relative; }
+  .fill { height: 100%; border-radius: 0 4px 4px 0; }
+  .threshold { position: absolute; top: -3px; bottom: -3px; left: 70%; border-left: 1px dashed var(--muted); }
+  .untested { color: var(--muted); }
+  .next { margin-top: 12px; padding: 10px 12px; border-radius: 8px; background: #f6f6f3; }
+  .next .q { font-weight: 600; margin: 4px 0; }
+  .next .why { color: var(--ink-2); font-size: 13px; }
+  .alert { margin-top: 10px; padding: 8px 10px; border-radius: 6px; background: var(--warn-bg); color: var(--warn); font-size: 13px; }
+  dl { display: grid; grid-template-columns: 150px 1fr; gap: 4px 12px; margin: 0; font-size: 14px; }
+  dt { color: var(--ink-2); }
+  dd { margin: 0; }
+  .error { color: #b00020; margin-top: 8px; font-size: 14px; }
+  .muted { color: var(--muted); font-size: 13px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Knowledge Debugger</h1>
+  <p>One answer, two learner models: the <b>baseline</b> sees only right/wrong, the <b>LLM-assisted</b> model reads the explanation.</p>
+</header>
+<main>
+  <section class="card">
+    <h2>1. Answer a question</h2>
+    <div class="row">
+      <div><label for="learner">Learner ID</label><input id="learner" type="text" value="demo-learner"></div>
+      <div style="flex:3 1 380px"><label for="question">Question</label><select id="question"></select></div>
+    </div>
+    <label for="answer">Written answer</label>
+    <textarea id="answer" placeholder="Type the learner's explanation…"></textarea>
+    <label>Right/wrong grade (all the baseline gets to see)</label>
+    <div class="grade">
+      <label><input type="radio" name="grade" value="true" checked> Correct</label>
+      <label><input type="radio" name="grade" value="false"> Incorrect</label>
+    </div>
+    <div class="actions">
+      <button id="submit">Submit answer</button>
+      <button id="useLlm" class="secondary">Load LLM's next question</button>
+      <button id="useBaseline" class="secondary">Load baseline's next question</button>
+      <button id="reset" class="secondary">Reset learner</button>
+    </div>
+    <div id="error" class="error"></div>
+  </section>
+
+  <section class="card" id="analysisCard" hidden>
+    <h2>LLM analysis of the last answer</h2>
+    <dl id="analysis"></dl>
+  </section>
+
+  <section class="compare">
+    <div class="card">
+      <h2><span class="swatch" style="background:var(--baseline)"></span>Baseline model <span class="tag" id="bCount">0 answers</span></h2>
+      <div id="bMastery" class="muted">No answers yet.</div>
+      <div id="bNext"></div>
+    </div>
+    <div class="card">
+      <h2><span class="swatch" style="background:var(--llm)"></span>LLM-assisted model <span class="tag" id="lCount">0 answers</span></h2>
+      <div id="lMastery" class="muted">No answers yet.</div>
+      <div id="lAlert"></div>
+      <div id="lNext"></div>
+    </div>
+  </section>
+  <p class="muted">Bars show estimated mastery per concept; the dashed line is the 70% mastery threshold. Both models use the same next-question rule.</p>
+</main>
+<script>
+const $ = (id) => document.getElementById(id);
+let concepts = [];
+let questions = [];
+let nextPicks = {};
+
+async function api(path, options = {}) {
+  const res = await fetch(path, { headers: { 'Content-Type': 'application/json' }, ...options });
+  const body = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(body.details || body.error || `Request failed (${res.status})`);
+  return body;
+}
+
+const learnerId = () => $('learner').value.trim() || 'demo-learner';
+const conceptName = (id) => (concepts.find((c) => c.id === Number(id)) || {}).name || `Concept ${id}`;
+const escapeHtml = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+async function init() {
+  // Open a specific learner with /app/?learner=<id>
+  const fromUrl = new URLSearchParams(location.search).get('learner');
+  if (fromUrl) $('learner').value = fromUrl;
+  [concepts, questions] = await Promise.all([api('/concepts'), api('/questions')]);
+  $('question').innerHTML = questions.map((q) =>
+    `<option value="${q.id}">Q${q.id} · ${escapeHtml(conceptName(q.concept_id))}${q.probes_misconception_id ? ' (probe)' : ''}: ${escapeHtml(q.question_text)}</option>`
+  ).join('');
+  await refresh();
+  await showLatestAnalysis();
+}
+
+// Show the learner's most recent LLM analysis (e.g. after reopening the page)
+async function showLatestAnalysis() {
+  const history = await api(`/analyses?learnerId=${encodeURIComponent(learnerId())}`);
+  if (history.length === 0) { $('analysisCard').hidden = true; return; }
+  const last = history[history.length - 1];
+  const q = questions.find((x) => x.id === last.questionId);
+  showAnalysis({ ...last, questionText: q ? q.question_text : '' });
+}
+
+function masteryBars(mastery, color) {
+  return concepts.map((c) => {
+    const v = mastery[c.id];
+    const known = v !== undefined;
+    return `<div class="bar-row"><span>${escapeHtml(c.name)}</span>
+      <div class="track"><div class="fill" style="width:${known ? v : 0}%;background:${color}"></div><div class="threshold"></div></div>
+      <span class="${known ? '' : 'untested'}">${known ? v + '%' : '—'}</span></div>`;
+  }).join('');
+}
+
+function nextHtml(pick) {
+  if (!pick) return '';
+  return `<div class="next"><span class="tag">next question · rule: ${escapeHtml(pick.rule)}</span>
+    <div class="q">Q${pick.question.id}: ${escapeHtml(pick.question.questionText)}</div>
+    <div class="why">${escapeHtml(pick.reason)}</div></div>`;
+}
+
+async function refresh() {
+  const id = encodeURIComponent(learnerId());
+  const [model, b, l] = await Promise.all([
+    api(`/learner-model/${id}`),
+    api(`/next-question/${id}?method=baseline`),
+    api(`/next-question/${id}?method=llm`),
+  ]);
+  nextPicks = { baseline: b, llm: l };
+  $('bCount').textContent = `${model.baseline.evidenceCount} answers`;
+  $('lCount').textContent = `${model.llm.evidenceCount} answers`;
+  $('bMastery').className = model.baseline.evidenceCount ? '' : 'muted';
+  $('lMastery').className = model.llm.evidenceCount ? '' : 'muted';
+  $('bMastery').innerHTML = masteryBars(model.baseline.mastery, 'var(--baseline)');
+  $('lMastery').innerHTML = masteryBars(model.llm.mastery, 'var(--llm)');
+  $('lAlert').innerHTML = model.llm.activeMisconceptions.length
+    ? `<div class="alert">Suspected misconception: <b>${model.llm.activeMisconceptions.map((m) => escapeHtml(m.code)).join(', ')}</b></div>`
+    : '';
+  $('bNext').innerHTML = nextHtml(b);
+  $('lNext').innerHTML = nextHtml(l);
+}
+
+function showAnalysis(a) {
+  $('analysisCard').hidden = false;
+  const rows = [
+    ['Answer', a.answer],
+    ['Response type', a.responseType],
+    ['Understanding', `${a.understandingLevel} / 100`],
+    ['Summary', a.understandingSummary],
+    ['Knowledge gap', a.knowledgeGap || '—'],
+    ['Misconception', a.misconception ? `${a.misconception}${a.misconceptionCode ? ` (${a.misconceptionCode})` : ' (not in catalog)'}` : '—'],
+  ];
+  if (a.latencyMs !== undefined) rows.push(['Prompt / latency', `${a.promptVersion || ''} · ${(a.latencyMs / 1000).toFixed(1)} s`]);
+  $('analysis').innerHTML = rows.map(([k, v]) => `<dt>${k}</dt><dd>${escapeHtml(v)}</dd>`).join('');
+}
+
+async function withBusy(button, fn) {
+  $('error').textContent = '';
+  document.querySelectorAll('button').forEach((b) => (b.disabled = true));
+  const label = button.textContent;
+  if (button.id === 'submit') button.textContent = 'Analyzing…';
+  try { await fn(); } catch (e) { $('error').textContent = e.message; }
+  finally {
+    button.textContent = label;
+    document.querySelectorAll('button').forEach((b) => (b.disabled = false));
+  }
+}
+
+$('submit').addEventListener('click', (e) => withBusy(e.target, async () => {
+  const answer = $('answer').value.trim();
+  if (!answer) throw new Error('Type an answer first.');
+  const body = { learnerId: learnerId(), questionId: Number($('question').value), answer };
+  const correct = document.querySelector('input[name=grade]:checked').value === 'true';
+  // Same answer goes to both models: a graded attempt (baseline) and an LLM analysis
+  const [, analysis] = await Promise.all([
+    api('/attempts', { method: 'POST', body: JSON.stringify({ ...body, correct }) }),
+    api('/analyze', { method: 'POST', body: JSON.stringify(body) }),
+  ]);
+  showAnalysis(analysis);
+  $('answer').value = '';
+  await refresh();
+}));
+
+const loadPick = (method) => (e) => {
+  const pick = nextPicks[method];
+  if (pick) $('question').value = String(pick.question.id);
+  $('answer').focus();
+};
+$('useLlm').addEventListener('click', loadPick('llm'));
+$('useBaseline').addEventListener('click', loadPick('baseline'));
+
+$('reset').addEventListener('click', (e) => withBusy(e.target, async () => {
+  await api(`/learners/${encodeURIComponent(learnerId())}`, { method: 'DELETE' });
+  $('analysisCard').hidden = true;
+  await refresh();
+}));
+
+$('learner').addEventListener('change', () =>
+  refresh().then(showLatestAnalysis).catch((e) => ($('error').textContent = e.message)));
+init().catch((e) => ($('error').textContent = e.message));
+</script>
+</body>
+</html>

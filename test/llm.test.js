@@ -37,3 +37,14 @@ test('prompt includes the misconception catalog', () => {
   });
   assert.match(prompt, /HTTP_IS_LANGUAGE \(concept: HTTP\): D/);
 });
+
+test('prompt v2 adds the uncertainty and out-of-catalog rules; v1 does not', () => {
+  const input = { conceptName: 'HTTP', questionText: 'Q', expectedAnswer: 'E', submittedAnswer: 'S', misconceptionCatalog: [] };
+  const v1 = buildPrompt({ ...input, promptVersion: 'v1' });
+  const v2 = buildPrompt({ ...input, promptVersion: 'v2' });
+  assert.doesNotMatch(v1, /Uncertainty is not a misconception/);
+  assert.match(v2, /Uncertainty is not a misconception/);
+  assert.match(v2, /does NOT match any code/);
+  assert.ok(v2.startsWith(v1.slice(0, 200)));
+  assert.throws(() => buildPrompt({ ...input, promptVersion: 'v9' }), /Unknown prompt version/);
+});

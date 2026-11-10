@@ -1,0 +1,9 @@
+responseId,run,category,label,llmResponseType,trueMisconception,llmMisconception,answer,llmSummary,warnings
+r06,1,,partial,misconception,,SERVER_IS_HARDWARE_ONLY,A server stores websites.,"The student associates a server with where websites are hosted, but misses the core functionality of listening for requests and returning responses.",
+r15,1,,incorrect,misconception,,HTTP_IS_LANGUAGE,HTML.,"The student confuses the HTTP protocol with HTML, which is a markup language for creating web pages.",
+r15,2,,incorrect,misconception,,HTTP_IS_LANGUAGE,HTML.,"The student confuses the HTTP protocol with HTML, which is a markup language for creating web pages.",
+r15,3,,incorrect,misconception,,HTTP_IS_LANGUAGE,HTML.,"The student knows about web-related terms starting with 'HT', but confuses an HTTP method with a markup language like HTML.",
+r19,1,,incorrect,misconception,,,API stands for Advanced Programming Internet.,"The student knows that API is an acronym, but incorrectly expands it as 'Advanced Programming Internet' instead of Application Programming Interface.",
+r19,2,,incorrect,misconception,,,API stands for Advanced Programming Internet.,"The student knows that API stands for something related to programming, but incorrectly expands the acronym as 'Advanced Programming Internet'.",
+r19,3,,incorrect,misconception,,,API stands for Advanced Programming Internet.,"The student knows that API is an acronym, but incorrectly expands it as 'Advanced Programming Internet' instead of Application Programming Interface.",
+r27,3,,incorrect,misconception,,,"I'm not sure, maybe a type of virus scan?",The student admits they do not know what authentication is and incorrectly guesses that it might be a type of virus scan.,

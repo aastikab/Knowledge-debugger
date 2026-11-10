@@ -1,8 +1,9 @@
 # Demo helpers for the video. Load them into the current terminal with:
 #   source scripts/demo.sh
 # The server must already be running in another terminal (npm start).
+# If port 3000 is taken, start it with PORT=3001 npm start and run: PORT=3001 source scripts/demo.sh
 
-B=http://localhost:3000
+B=http://localhost:${PORT:-3000}
 DEMO_LEARNER=alex
 
 # Record a baseline attempt graded correct: attempt <questionId> "<answer>"

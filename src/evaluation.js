@@ -176,6 +176,8 @@ function evaluateScenario(scenario, itemsById, runByItemId, curriculum) {
     probeHit: targetMisconception
       ? Boolean(selection && selection.question.probes_misconception_id === targetMisconception.id)
       : null,
+    // Asking a misconception probe when the learner has no (catalog) misconception
+    falseProbe: targetMisconception ? null : Boolean(selection && selection.rule === 'misconception-probe'),
   });
 
   return {
@@ -189,8 +191,126 @@ function evaluateScenario(scenario, itemsById, runByItemId, curriculum) {
   };
 }
 
+// --------------------------------------------------
+// Statistics added for the final evaluation (Weeks 10-12)
+// --------------------------------------------------
+
+// One prediction per item: the most common (responseType, misconceptionCode)
+// pair across runs. Ties go to the earliest run, so the result is deterministic.
+function majorityVote(runs) {
+  if (!runs || runs.length === 0) return null;
+  const key = (r) => `${r.responseType}|${r.misconceptionCode || ''}`;
+  const counts = {};
+  for (const r of runs) counts[key(r)] = (counts[key(r)] || 0) + 1;
+  const best = Math.max(...Object.values(counts));
+  const winner = runs.find((r) => counts[key(r)] === best);
+  const sameAnswer = runs.filter((r) => key(r) === key(winner));
+  return {
+    responseType: winner.responseType,
+    misconceptionCode: winner.misconceptionCode || null,
+    understandingLevel: Math.round(mean(sameAnswer.map((r) => r.understandingLevel))),
+    agreement: best / runs.length,
+  };
+}
+
+// Exact two-sided McNemar test on paired outcomes.
+// pairs: [{ a: boolean, b: boolean }] (e.g. a = baseline right, b = LLM right)
+// Only discordant pairs matter: b01 = a wrong & b right, b10 = a right & b wrong.
+function mcnemarExact(pairs) {
+  const b01 = pairs.filter((p) => !p.a && p.b).length;
+  const b10 = pairs.filter((p) => p.a && !p.b).length;
+  const n = b01 + b10;
+  if (n === 0) return { b01, b10, pValue: 1 };
+  const k = Math.min(b01, b10);
+  let tail = 0;
+  for (let i = 0; i <= k; i++) tail += binomial(n, i) * 0.5 ** n;
+  return { b01, b10, pValue: Math.min(1, 2 * tail) };
+}
+
+function binomial(n, k) {
+  let result = 1;
+  for (let i = 1; i <= k; i++) result = (result * (n - k + i)) / i;
+  return result;
+}
+
+// Small seeded random generator so bootstrap results are reproducible
+function seededRandom(seed) {
+  let t = seed >>> 0;
+  return () => {
+    t = (t + 0x6d2b79f5) >>> 0;
+    let x = Math.imul(t ^ (t >>> 15), 1 | t);
+    x = (x + Math.imul(x ^ (x >>> 7), 61 | x)) ^ x;
+    return ((x ^ (x >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+// Percentile bootstrap 95% confidence interval, resampling items.
+// statistic(sample) must return a number (or null, which is skipped).
+function bootstrapCI(items, statistic, { reps = 2000, seed = 42, level = 0.95 } = {}) {
+  if (items.length === 0) return null;
+  const random = seededRandom(seed);
+  const values = [];
+  for (let r = 0; r < reps; r++) {
+    const sample = items.map(() => items[Math.floor(random() * items.length)]);
+    const value = statistic(sample);
+    if (value !== null && Number.isFinite(value)) values.push(value);
+  }
+  values.sort((a, b) => a - b);
+  const lowIndex = Math.floor(((1 - level) / 2) * values.length);
+  const highIndex = Math.min(values.length - 1, Math.ceil((1 - (1 - level) / 2) * values.length) - 1);
+  return [values[lowIndex], values[highIndex]];
+}
+
+// Measures for the robustness set.
+// rows: [{ item, pred }] where pred = { responseType, misconceptionCode }
+function robustnessMetrics(rows) {
+  const rate = (subset, test) => (subset.length ? subset.filter(test).length / subset.length : null);
+  const outOfCatalog = rows.filter((r) => r.item.category === 'out_of_catalog');
+  const noBelief = rows.filter((r) => r.item.label !== 'misconception');
+  const hedged = rows.filter((r) => r.item.category === 'hedged');
+  const anyMisconception = rows.filter((r) => r.item.label === 'misconception');
+
+  return {
+    // Out-of-catalog misconceptions: the right output is "misconception" with no code
+    outOfCatalogN: outOfCatalog.length,
+    outOfCatalogFlaggedAsMisconception: rate(outOfCatalog, (r) => r.pred.responseType === 'misconception'),
+    outOfCatalogGapDetected: rate(outOfCatalog, (r) => r.pred.responseType !== 'correct'),
+    outOfCatalogForcedFit: rate(outOfCatalog, (r) => Boolean(r.pred.misconceptionCode)),
+    // Reporting a misconception the learner does not have
+    falseMisconceptionRate: rate(noBelief, (r) => r.pred.responseType === 'misconception' || Boolean(r.pred.misconceptionCode)),
+    hedgedN: hedged.length,
+    hedgedFalseMisconceptionRate: rate(hedged, (r) => r.pred.responseType === 'misconception' || Boolean(r.pred.misconceptionCode)),
+    // Any misconception (catalog or not) recognized as a misconception
+    misconceptionTypeRecall: rate(anyMisconception, (r) => r.pred.responseType === 'misconception'),
+  };
+}
+
+// Accuracy per category (or any other key) for one method
+function accuracyBy(rows, keyFn) {
+  const groups = {};
+  for (const r of rows) {
+    const k = keyFn(r);
+    if (!groups[k]) groups[k] = { n: 0, typeCorrect: 0, gapCorrect: 0 };
+    groups[k].n += 1;
+    if (r.pred.responseType === r.item.label) groups[k].typeCorrect += 1;
+    if (r.pred.gapDetected === (r.item.label !== 'correct')) groups[k].gapCorrect += 1;
+  }
+  return Object.fromEntries(
+    Object.entries(groups).map(([k, g]) => [
+      k,
+      { n: g.n, responseTypeAccuracy: g.typeCorrect / g.n, gapDetectionAccuracy: g.gapCorrect / g.n },
+    ])
+  );
+}
+
 module.exports = {
   LABELS,
+  majorityVote,
+  mcnemarExact,
+  bootstrapCI,
+  seededRandom,
+  robustnessMetrics,
+  accuracyBy,
   baselinePrediction,
   llmPrediction,
   binaryMetrics,

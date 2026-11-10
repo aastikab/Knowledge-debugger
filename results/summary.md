@@ -1,6 +1,7 @@
 # Knowledge Debugger — Evaluation Results
 
-Generated: 2026-10-27T16:58:54.102Z
+Generated: 2026-11-10T17:07:41.816Z
+Dataset: `data/eval_responses.json` (sha256 24a3fcf9f4d5) · Prompt: v1
 Model: gemini-3.5-flash-lite · Responses: 40 · Runs per response: 3 · Successful LLM calls: 120 · Failed calls: 0 · Outputs needing correction: 0
 
 ## 1. Knowledge-gap and misconception detection
@@ -30,6 +31,32 @@ The baseline can only output "correct" or "incorrect" and cannot name a misconce
 | incorrect | 0 | 0 | 27 | 3 |
 | misconception | 0 | 0 | 0 | 30 |
 
+### Item-level comparison with 95% confidence intervals
+
+One LLM prediction per response (majority vote over runs). Intervals are percentile bootstrap (2,000 resamples of responses, seed 42). p-values are from an exact two-sided McNemar test on the paired right/wrong outcomes.
+
+| Measure | Baseline | LLM-assisted | Difference (LLM − baseline) | McNemar p |
+|---|---|---|---|---|
+| Response-type accuracy | 50.0% [35.0, 65.0] | 97.5% [92.5, 100.0] | [30.0, 65.0] | < 0.001 |
+| Knowledge-gap detection accuracy | 80.0% [67.5, 90.0] | 100.0% [100.0, 100.0] | [10.0, 32.5] | 0.008 |
+
+### Misconception handling
+
+| Measure | Baseline | LLM-assisted |
+|---|---|---|
+| Misconception responses recognized as misconceptions (any, incl. out-of-catalog) | 0.0% | 100.0% |
+| False misconception rate (no false belief, but one reported) | 0.0% | 5.6% |
+
+
+### Label audit
+
+Responses flagged as ambiguous during the label review: r14, r15. Their labels were kept unchanged; results without them:
+
+| Measure | Baseline | LLM-assisted |
+|---|---|---|
+| Response-type accuracy excluding ambiguous items | 50.0% | 100.0% |
+| Misconception identification F1 excluding ambiguous items | 0.000 | 1.000 |
+
 ## 2. Consistency of LLM assessments
 
 | Metric | Value |
@@ -55,7 +82,7 @@ The baseline can only output "correct" or "incorrect" and cannot name a misconce
 
 A concept hit means the selected question targets the learner's real gap. A probe hit means it is the probe question for the learner's actual misconception.
 
-| Scenario | Score | Target | Baseline pick | Concept hit | LLM pick | Concept hit | Probe hit |
+| Scenario | Score | Target | Baseline pick | Concept hit | LLM pick | Concept hit | Probe hit / false probe |
 |---|---|---|---|---|---|---|---|
 | S01: Hidden authn/authz confusion: every answer graded correct | 100% | Authorization / AUTHN_AUTHZ_CONFUSION | Q2 (review) | no | Q18 (misconception-probe) | yes | yes |
 | S02: Hidden 'HTTP is a language' belief inside a correct acronym | 100% | HTTP / HTTP_IS_LANGUAGE | Q2 (review) | no | Q13 (misconception-probe) | yes | yes |
@@ -75,6 +102,7 @@ A concept hit means the selected question targets the learner's real gap. A prob
 |---|---|---|
 | Concept hit rate | 76.9% | 100.0% |
 | Misconception probe hit rate | 0.0% | 100.0% |
+| False probe rate (probe asked, learner has no catalog misconception) | 0.0% | 0.0% |
 
 Scenarios evaluated: 13 (skipped because of failed calls: 0)
 

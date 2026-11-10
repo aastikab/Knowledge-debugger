@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="364" viewBox="0 0 760 364" font-family="Helvetica, Arial, sans-serif" role="img" aria-label="Original set (40 responses): baseline vs LLM-assisted">
+<rect width="760" height="364" fill="#fcfcfb"/>
+<text x="16" y="28" font-size="16" font-weight="600" fill="#0b0b0b">Original set (40 responses): baseline vs LLM-assisted</text>
+<rect x="16" y="44" width="12" height="12" rx="2" fill="#2a78d6"/>
+<text x="34" y="54" font-size="12" fill="#52514e">Baseline (right/wrong)</text>
+<rect x="191.2" y="44" width="12" height="12" rx="2" fill="#eb6834"/>
+<text x="209.2" y="54" font-size="12" fill="#52514e">LLM, prompt v1</text>
+<rect x="313.59999999999997" y="44" width="12" height="12" rx="2" fill="#1baf7a"/>
+<text x="331.59999999999997" y="54" font-size="12" fill="#52514e">LLM, prompt v2</text>
+<line x1="250" x2="250" y1="68" y2="334" stroke="#c3c2b7" stroke-width="1"/>
+<text x="250" y="350" font-size="11" fill="#898781" text-anchor="middle">0%</text>
+<line x1="360" x2="360" y1="68" y2="334" stroke="#e1e0d9" stroke-width="1"/>
+<text x="360" y="350" font-size="11" fill="#898781" text-anchor="middle">25%</text>
+<line x1="470" x2="470" y1="68" y2="334" stroke="#e1e0d9" stroke-width="1"/>
+<text x="470" y="350" font-size="11" fill="#898781" text-anchor="middle">50%</text>
+<line x1="580" x2="580" y1="68" y2="334" stroke="#e1e0d9" stroke-width="1"/>
+<text x="580" y="350" font-size="11" fill="#898781" text-anchor="middle">75%</text>
+<line x1="690" x2="690" y1="68" y2="334" stroke="#e1e0d9" stroke-width="1"/>
+<text x="690" y="350" font-size="11" fill="#898781" text-anchor="middle">100%</text>
+<text x="240" y="101" font-size="12" fill="#0b0b0b" text-anchor="end">Response-type accuracy</text>
+<path d="M250,74 h216 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-216 z" fill="#2a78d6"><title>Baseline (right/wrong): 50.0%</title></path>
+<text x="475" y="85" font-size="11" fill="#52514e">50.0%</text>
+<path d="M250,90 h421.3333333333333 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-421.3333333333333 z" fill="#eb6834"><title>LLM, prompt v1: 96.7%</title></path>
+<text x="680.3333333333333" y="101" font-size="11" fill="#52514e">96.7%</text>
+<path d="M250,106 h406.6666666666667 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-406.6666666666667 z" fill="#1baf7a"><title>LLM, prompt v2: 93.3%</title></path>
+<text x="665.6666666666667" y="117" font-size="11" fill="#52514e">93.3%</text>
+<text x="240" y="165" font-size="12" fill="#0b0b0b" text-anchor="end">Gap detection F1</text>
+<path d="M250,138 h368.30769230769226 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-368.30769230769226 z" fill="#2a78d6"><title>Baseline (right/wrong): 84.6%</title></path>
+<text x="627.3076923076923" y="149" font-size="11" fill="#52514e">84.6%</text>
+<path d="M250,154 h436 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-436 z" fill="#eb6834"><title>LLM, prompt v1: 100.0%</title></path>
+<text x="695" y="165" font-size="11" fill="#52514e">100.0%</text>
+<path d="M250,170 h436 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-436 z" fill="#1baf7a"><title>LLM, prompt v2: 100.0%</title></path>
+<text x="695" y="181" font-size="11" fill="#52514e">100.0%</text>
+<text x="240" y="229" font-size="12" fill="#0b0b0b" text-anchor="end">Hidden-gap recall</text>
+<text x="255" y="213" font-size="11" fill="#52514e">0.0%</text>
+<path d="M250,218 h436 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-436 z" fill="#eb6834"><title>LLM, prompt v1: 100.0%</title></path>
+<text x="695" y="229" font-size="11" fill="#52514e">100.0%</text>
+<path d="M250,234 h436 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-436 z" fill="#1baf7a"><title>LLM, prompt v2: 100.0%</title></path>
+<text x="695" y="245" font-size="11" fill="#52514e">100.0%</text>
+<text x="240" y="293" font-size="12" fill="#0b0b0b" text-anchor="end">Misconception F1</text>
+<text x="255" y="277" font-size="11" fill="#52514e">0.0%</text>
+<path d="M250,282 h402.15384615384613 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-402.15384615384613 z" fill="#eb6834"><title>LLM, prompt v1: 92.3%</title></path>
+<text x="661.1538461538462" y="293" font-size="11" fill="#52514e">92.3%</text>
+<path d="M250,298 h408.5 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-408.5 z" fill="#1baf7a"><title>LLM, prompt v2: 93.8%</title></path>
+<text x="667.5" y="309" font-size="11" fill="#52514e">93.8%</text>
+</svg>

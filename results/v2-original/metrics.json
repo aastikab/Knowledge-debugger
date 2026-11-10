@@ -1,0 +1,211 @@
+{
+  "generatedAt": "2026-11-10T17:30:05.193Z",
+  "mock": false,
+  "dataset": "data/eval_responses.json",
+  "datasetSha256": "24a3fcf9f4d5a35092aa65013edaf7174ccba5d899caa8e3ee702b509c5f5d27",
+  "promptVersion": "v2",
+  "model": "gemini-3.5-flash-lite",
+  "responses": 40,
+  "runsPerResponse": 3,
+  "successfulCalls": 120,
+  "failedCalls": 2,
+  "outputWarnings": 0,
+  "baseline": {
+    "responseTypeAccuracy": 0.5,
+    "gapDetection": {
+      "n": 40,
+      "tp": 22,
+      "fp": 0,
+      "fn": 8,
+      "tn": 10,
+      "accuracy": 0.8,
+      "precision": 1,
+      "recall": 0.7333333333333333,
+      "f1": 0.846153846153846
+    },
+    "misconception": {
+      "n": 40,
+      "tp": 0,
+      "fp": 0,
+      "fn": 10,
+      "precision": null,
+      "recall": 0,
+      "f1": 0
+    },
+    "hiddenGapRecall": 0,
+    "confusion": {
+      "correct": {
+        "correct": 10,
+        "partial": 0,
+        "incorrect": 0,
+        "misconception": 0
+      },
+      "partial": {
+        "correct": 5,
+        "partial": 0,
+        "incorrect": 5,
+        "misconception": 0
+      },
+      "incorrect": {
+        "correct": 0,
+        "partial": 0,
+        "incorrect": 10,
+        "misconception": 0
+      },
+      "misconception": {
+        "correct": 3,
+        "partial": 0,
+        "incorrect": 7,
+        "misconception": 0
+      }
+    }
+  },
+  "llm": {
+    "responseTypeAccuracy": 0.9333333333333333,
+    "gapDetection": {
+      "n": 120,
+      "tp": 90,
+      "fp": 0,
+      "fn": 0,
+      "tn": 30,
+      "accuracy": 1,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1
+    },
+    "misconception": {
+      "n": 120,
+      "tp": 30,
+      "fp": 4,
+      "fn": 0,
+      "precision": 0.8823529411764706,
+      "recall": 1,
+      "f1": 0.9375
+    },
+    "hiddenGapRecall": 1,
+    "confusion": {
+      "correct": {
+        "correct": 30,
+        "partial": 0,
+        "incorrect": 0,
+        "misconception": 0
+      },
+      "partial": {
+        "correct": 0,
+        "partial": 29,
+        "incorrect": 0,
+        "misconception": 1
+      },
+      "incorrect": {
+        "correct": 0,
+        "partial": 0,
+        "incorrect": 23,
+        "misconception": 7
+      },
+      "misconception": {
+        "correct": 0,
+        "partial": 0,
+        "incorrect": 0,
+        "misconception": 30
+      }
+    }
+  },
+  "itemLevel": {
+    "n": 40,
+    "baselineTypeAccuracy": 0.5,
+    "baselineTypeAccuracyCI": [
+      0.35,
+      0.65
+    ],
+    "llmTypeAccuracy": 0.95,
+    "llmTypeAccuracyCI": [
+      0.875,
+      1
+    ],
+    "typeAccuracyDifferenceCI": [
+      0.275,
+      0.625
+    ],
+    "typeMcNemar": {
+      "b01": 20,
+      "b10": 2,
+      "pValue": 0.00012111663818359375
+    },
+    "baselineGapAccuracy": 0.8,
+    "baselineGapAccuracyCI": [
+      0.675,
+      0.9
+    ],
+    "llmGapAccuracy": 1,
+    "llmGapAccuracyCI": [
+      1,
+      1
+    ],
+    "gapAccuracyDifferenceCI": [
+      0.09999999999999998,
+      0.32499999999999996
+    ],
+    "gapMcNemar": {
+      "b01": 8,
+      "b10": 0,
+      "pValue": 0.0078125
+    }
+  },
+  "robustness": {
+    "baseline": {
+      "outOfCatalogN": 0,
+      "outOfCatalogFlaggedAsMisconception": null,
+      "outOfCatalogGapDetected": null,
+      "outOfCatalogForcedFit": null,
+      "falseMisconceptionRate": 0,
+      "hedgedN": 0,
+      "hedgedFalseMisconceptionRate": null,
+      "misconceptionTypeRecall": 0
+    },
+    "llm": {
+      "outOfCatalogN": 0,
+      "outOfCatalogFlaggedAsMisconception": null,
+      "outOfCatalogGapDetected": null,
+      "outOfCatalogForcedFit": null,
+      "falseMisconceptionRate": 0.08888888888888889,
+      "hedgedN": 0,
+      "hedgedFalseMisconceptionRate": null,
+      "misconceptionTypeRecall": 1
+    }
+  },
+  "byCategory": null,
+  "labelAudit": {
+    "ambiguousItems": [
+      "r14",
+      "r15"
+    ],
+    "baselineTypeAccuracyExcludingAmbiguous": 0.5,
+    "llmTypeAccuracyExcludingAmbiguous": 0.956140350877193,
+    "llmMisconceptionF1ExcludingAmbiguous": 0.9836065573770492
+  },
+  "consistency": {
+    "itemsWithRepeats": 40,
+    "meanResponseTypeAgreement": 0.9833333333333334,
+    "meanMisconceptionAgreement": 0.9916666666666668,
+    "fullyConsistentItems": 38,
+    "meanUnderstandingLevelStd": 1.9403129830347159
+  },
+  "cost": {
+    "meanLatencyMs": 3450.3,
+    "medianLatencyMs": 960,
+    "maxLatencyMs": 44680,
+    "meanInputTokens": 833.425,
+    "meanOutputTokens": 105.85,
+    "totalTokens": 112713
+  },
+  "scenarios": {
+    "evaluated": 13,
+    "skipped": 0,
+    "baselineConceptHitRate": 0.7692307692307693,
+    "llmConceptHitRate": 1,
+    "baselineProbeHitRate": 0,
+    "llmProbeHitRate": 1,
+    "baselineFalseProbeRate": 0,
+    "llmFalseProbeRate": 0
+  }
+}

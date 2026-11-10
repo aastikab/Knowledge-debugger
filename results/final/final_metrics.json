@@ -1,0 +1,422 @@
+{
+  "v1Original": {
+    "dataset": "data/eval_responses.json",
+    "promptVersion": "v1",
+    "model": "gemini-3.5-flash-lite",
+    "successfulCalls": 120,
+    "baseline": {
+      "responseTypeAccuracy": 0.5,
+      "gapF1": 0.846153846153846,
+      "hiddenGapRecall": 0
+    },
+    "llm": {
+      "responseTypeAccuracy": 0.9666666666666667,
+      "gapF1": 1,
+      "hiddenGapRecall": 1,
+      "misconceptionF1": 0.923076923076923
+    },
+    "itemLevel": {
+      "n": 40,
+      "baselineTypeAccuracy": 0.5,
+      "baselineTypeAccuracyCI": [
+        0.35,
+        0.65
+      ],
+      "llmTypeAccuracy": 0.975,
+      "llmTypeAccuracyCI": [
+        0.925,
+        1
+      ],
+      "typeAccuracyDifferenceCI": [
+        0.30000000000000004,
+        0.6499999999999999
+      ],
+      "typeMcNemar": {
+        "b01": 20,
+        "b10": 1,
+        "pValue": 0.0000209808349609375
+      },
+      "baselineGapAccuracy": 0.8,
+      "baselineGapAccuracyCI": [
+        0.675,
+        0.9
+      ],
+      "llmGapAccuracy": 1,
+      "llmGapAccuracyCI": [
+        1,
+        1
+      ],
+      "gapAccuracyDifferenceCI": [
+        0.09999999999999998,
+        0.32499999999999996
+      ],
+      "gapMcNemar": {
+        "b01": 8,
+        "b10": 0,
+        "pValue": 0.0078125
+      }
+    },
+    "robustness": {
+      "baseline": {
+        "outOfCatalogN": 0,
+        "outOfCatalogFlaggedAsMisconception": null,
+        "outOfCatalogGapDetected": null,
+        "outOfCatalogForcedFit": null,
+        "falseMisconceptionRate": 0,
+        "hedgedN": 0,
+        "hedgedFalseMisconceptionRate": null,
+        "misconceptionTypeRecall": 0
+      },
+      "llm": {
+        "outOfCatalogN": 0,
+        "outOfCatalogFlaggedAsMisconception": null,
+        "outOfCatalogGapDetected": null,
+        "outOfCatalogForcedFit": null,
+        "falseMisconceptionRate": 0.05555555555555555,
+        "hedgedN": 0,
+        "hedgedFalseMisconceptionRate": null,
+        "misconceptionTypeRecall": 1
+      }
+    },
+    "scenarios": {
+      "evaluated": 13,
+      "skipped": 0,
+      "baselineConceptHitRate": 0.7692307692307693,
+      "llmConceptHitRate": 1,
+      "baselineProbeHitRate": 0,
+      "llmProbeHitRate": 1,
+      "baselineFalseProbeRate": 0,
+      "llmFalseProbeRate": 0
+    },
+    "consistency": {
+      "itemsWithRepeats": 40,
+      "meanResponseTypeAgreement": 0.9916666666666666,
+      "meanMisconceptionAgreement": 0.9916666666666666,
+      "fullyConsistentItems": 39,
+      "meanUnderstandingLevelStd": 1.3984245047913029
+    },
+    "cost": {
+      "meanLatencyMs": 6906.508333333333,
+      "medianLatencyMs": 3218.5,
+      "maxLatencyMs": 71433,
+      "meanInputTokens": 626.425,
+      "meanOutputTokens": 105.53333333333333,
+      "totalTokens": 87835
+    }
+  },
+  "v2Original": {
+    "dataset": "data/eval_responses.json",
+    "promptVersion": "v2",
+    "model": "gemini-3.5-flash-lite",
+    "successfulCalls": 120,
+    "baseline": {
+      "responseTypeAccuracy": 0.5,
+      "gapF1": 0.846153846153846,
+      "hiddenGapRecall": 0
+    },
+    "llm": {
+      "responseTypeAccuracy": 0.9333333333333333,
+      "gapF1": 1,
+      "hiddenGapRecall": 1,
+      "misconceptionF1": 0.9375
+    },
+    "itemLevel": {
+      "n": 40,
+      "baselineTypeAccuracy": 0.5,
+      "baselineTypeAccuracyCI": [
+        0.35,
+        0.65
+      ],
+      "llmTypeAccuracy": 0.95,
+      "llmTypeAccuracyCI": [
+        0.875,
+        1
+      ],
+      "typeAccuracyDifferenceCI": [
+        0.275,
+        0.625
+      ],
+      "typeMcNemar": {
+        "b01": 20,
+        "b10": 2,
+        "pValue": 0.00012111663818359375
+      },
+      "baselineGapAccuracy": 0.8,
+      "baselineGapAccuracyCI": [
+        0.675,
+        0.9
+      ],
+      "llmGapAccuracy": 1,
+      "llmGapAccuracyCI": [
+        1,
+        1
+      ],
+      "gapAccuracyDifferenceCI": [
+        0.09999999999999998,
+        0.32499999999999996
+      ],
+      "gapMcNemar": {
+        "b01": 8,
+        "b10": 0,
+        "pValue": 0.0078125
+      }
+    },
+    "robustness": {
+      "baseline": {
+        "outOfCatalogN": 0,
+        "outOfCatalogFlaggedAsMisconception": null,
+        "outOfCatalogGapDetected": null,
+        "outOfCatalogForcedFit": null,
+        "falseMisconceptionRate": 0,
+        "hedgedN": 0,
+        "hedgedFalseMisconceptionRate": null,
+        "misconceptionTypeRecall": 0
+      },
+      "llm": {
+        "outOfCatalogN": 0,
+        "outOfCatalogFlaggedAsMisconception": null,
+        "outOfCatalogGapDetected": null,
+        "outOfCatalogForcedFit": null,
+        "falseMisconceptionRate": 0.08888888888888889,
+        "hedgedN": 0,
+        "hedgedFalseMisconceptionRate": null,
+        "misconceptionTypeRecall": 1
+      }
+    },
+    "scenarios": {
+      "evaluated": 13,
+      "skipped": 0,
+      "baselineConceptHitRate": 0.7692307692307693,
+      "llmConceptHitRate": 1,
+      "baselineProbeHitRate": 0,
+      "llmProbeHitRate": 1,
+      "baselineFalseProbeRate": 0,
+      "llmFalseProbeRate": 0
+    },
+    "consistency": {
+      "itemsWithRepeats": 40,
+      "meanResponseTypeAgreement": 0.9833333333333334,
+      "meanMisconceptionAgreement": 0.9916666666666668,
+      "fullyConsistentItems": 38,
+      "meanUnderstandingLevelStd": 1.9403129830347159
+    },
+    "cost": {
+      "meanLatencyMs": 3450.3,
+      "medianLatencyMs": 960,
+      "maxLatencyMs": 44680,
+      "meanInputTokens": 833.425,
+      "meanOutputTokens": 105.85,
+      "totalTokens": 112713
+    }
+  },
+  "v1Robust": {
+    "dataset": "data/robustness_responses.json",
+    "promptVersion": "v1",
+    "model": "gemini-3.5-flash-lite",
+    "successfulCalls": 49,
+    "baseline": {
+      "responseTypeAccuracy": 0.40816326530612246,
+      "gapF1": 0.6046511627906976,
+      "hiddenGapRecall": 0
+    },
+    "llm": {
+      "responseTypeAccuracy": 0.8571428571428571,
+      "gapF1": 0.967741935483871,
+      "hiddenGapRecall": 1,
+      "misconceptionF1": 0.967741935483871
+    },
+    "itemLevel": {
+      "n": 49,
+      "baselineTypeAccuracy": 0.40816326530612246,
+      "baselineTypeAccuracyCI": [
+        0.2653061224489796,
+        0.5306122448979592
+      ],
+      "llmTypeAccuracy": 0.8571428571428571,
+      "llmTypeAccuracyCI": [
+        0.7551020408163265,
+        0.9387755102040817
+      ],
+      "typeAccuracyDifferenceCI": [
+        0.2857142857142857,
+        0.6122448979591837
+      ],
+      "typeMcNemar": {
+        "b01": 24,
+        "b10": 2,
+        "pValue": 0.00001049041748046875
+      },
+      "baselineGapAccuracy": 0.6530612244897959,
+      "baselineGapAccuracyCI": [
+        0.5102040816326531,
+        0.7755102040816326
+      ],
+      "llmGapAccuracy": 0.9591836734693877,
+      "llmGapAccuracyCI": [
+        0.8979591836734694,
+        1
+      ],
+      "gapAccuracyDifferenceCI": [
+        0.16326530612244894,
+        0.4693877551020408
+      ],
+      "gapMcNemar": {
+        "b01": 17,
+        "b10": 2,
+        "pValue": 0.000728607177734375
+      }
+    },
+    "robustness": {
+      "baseline": {
+        "outOfCatalogN": 8,
+        "outOfCatalogFlaggedAsMisconception": 0,
+        "outOfCatalogGapDetected": 0.375,
+        "outOfCatalogForcedFit": 0,
+        "falseMisconceptionRate": 0,
+        "hedgedN": 9,
+        "hedgedFalseMisconceptionRate": 0,
+        "misconceptionTypeRecall": 0
+      },
+      "llm": {
+        "outOfCatalogN": 8,
+        "outOfCatalogFlaggedAsMisconception": 0.375,
+        "outOfCatalogGapDetected": 1,
+        "outOfCatalogForcedFit": 0,
+        "falseMisconceptionRate": 0,
+        "hedgedN": 9,
+        "hedgedFalseMisconceptionRate": 0,
+        "misconceptionTypeRecall": 0.7916666666666666
+      }
+    },
+    "scenarios": {
+      "evaluated": 12,
+      "skipped": 0,
+      "baselineConceptHitRate": 0.4166666666666667,
+      "llmConceptHitRate": 1,
+      "baselineProbeHitRate": 0,
+      "llmProbeHitRate": 1,
+      "baselineFalseProbeRate": 0,
+      "llmFalseProbeRate": 0
+    },
+    "consistency": {
+      "itemsWithRepeats": 11,
+      "meanResponseTypeAgreement": 1,
+      "meanMisconceptionAgreement": 1,
+      "fullyConsistentItems": 11,
+      "meanUnderstandingLevelStd": 0.21427478217774165
+    },
+    "cost": {
+      "meanLatencyMs": 4682.448979591837,
+      "medianLatencyMs": 1048,
+      "maxLatencyMs": 37646,
+      "meanInputTokens": 648.0816326530612,
+      "meanOutputTokens": 109.73469387755102,
+      "totalTokens": 37133
+    }
+  },
+  "v2Robust": {
+    "dataset": "data/robustness_responses.json",
+    "promptVersion": "v2",
+    "model": "gemini-3.5-flash-lite",
+    "successfulCalls": 49,
+    "baseline": {
+      "responseTypeAccuracy": 0.40816326530612246,
+      "gapF1": 0.6046511627906976,
+      "hiddenGapRecall": 0
+    },
+    "llm": {
+      "responseTypeAccuracy": 0.9387755102040817,
+      "gapF1": 0.967741935483871,
+      "hiddenGapRecall": 1,
+      "misconceptionF1": 0.967741935483871
+    },
+    "itemLevel": {
+      "n": 49,
+      "baselineTypeAccuracy": 0.40816326530612246,
+      "baselineTypeAccuracyCI": [
+        0.2653061224489796,
+        0.5306122448979592
+      ],
+      "llmTypeAccuracy": 0.9387755102040817,
+      "llmTypeAccuracyCI": [
+        0.8571428571428571,
+        1
+      ],
+      "typeAccuracyDifferenceCI": [
+        0.3673469387755103,
+        0.6938775510204082
+      ],
+      "typeMcNemar": {
+        "b01": 28,
+        "b10": 2,
+        "pValue": 8.67992639541626e-7
+      },
+      "baselineGapAccuracy": 0.6530612244897959,
+      "baselineGapAccuracyCI": [
+        0.5102040816326531,
+        0.7755102040816326
+      ],
+      "llmGapAccuracy": 0.9591836734693877,
+      "llmGapAccuracyCI": [
+        0.8979591836734694,
+        1
+      ],
+      "gapAccuracyDifferenceCI": [
+        0.16326530612244894,
+        0.4693877551020408
+      ],
+      "gapMcNemar": {
+        "b01": 17,
+        "b10": 2,
+        "pValue": 0.000728607177734375
+      }
+    },
+    "robustness": {
+      "baseline": {
+        "outOfCatalogN": 8,
+        "outOfCatalogFlaggedAsMisconception": 0,
+        "outOfCatalogGapDetected": 0.375,
+        "outOfCatalogForcedFit": 0,
+        "falseMisconceptionRate": 0,
+        "hedgedN": 9,
+        "hedgedFalseMisconceptionRate": 0,
+        "misconceptionTypeRecall": 0
+      },
+      "llm": {
+        "outOfCatalogN": 8,
+        "outOfCatalogFlaggedAsMisconception": 0.875,
+        "outOfCatalogGapDetected": 1,
+        "outOfCatalogForcedFit": 0,
+        "falseMisconceptionRate": 0,
+        "hedgedN": 9,
+        "hedgedFalseMisconceptionRate": 0,
+        "misconceptionTypeRecall": 0.9583333333333334
+      }
+    },
+    "scenarios": {
+      "evaluated": 12,
+      "skipped": 0,
+      "baselineConceptHitRate": 0.4166666666666667,
+      "llmConceptHitRate": 1,
+      "baselineProbeHitRate": 0,
+      "llmProbeHitRate": 1,
+      "baselineFalseProbeRate": 0,
+      "llmFalseProbeRate": 0
+    },
+    "consistency": {
+      "itemsWithRepeats": 17,
+      "meanResponseTypeAgreement": 1,
+      "meanMisconceptionAgreement": 1,
+      "fullyConsistentItems": 17,
+      "meanUnderstandingLevelStd": 2.218374215487208
+    },
+    "cost": {
+      "meanLatencyMs": 3424.1632653061224,
+      "medianLatencyMs": 975,
+      "maxLatencyMs": 62696,
+      "meanInputTokens": 855.0816326530612,
+      "meanOutputTokens": 110.3061224489796,
+      "totalTokens": 47304
+    }
+  }
+}

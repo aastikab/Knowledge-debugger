@@ -30,9 +30,9 @@
 
     { "id": "r13", "questionId": 4, "label": "correct", "baselineCorrect": true, "misconceptionCode": null,
       "answer": "GET. It asks the server to send back data without changing anything." },
-    { "id": "r14", "questionId": 4, "label": "partial", "baselineCorrect": false, "misconceptionCode": null,
+    { "id": "r14", "ambiguous": true, "ambiguityNote": "Label review: 'can't remember which' could be partial (knows the method names) or incorrect (cannot answer). Kept as partial.", "questionId": 4, "label": "partial", "baselineCorrect": false, "misconceptionCode": null,
       "answer": "One of the methods like GET or POST, I can't remember which." },
-    { "id": "r15", "questionId": 4, "label": "incorrect", "baselineCorrect": false, "misconceptionCode": null,
+    { "id": "r15", "ambiguous": true, "ambiguityNote": "Label review: answering 'HTML' to an HTTP-method question may reflect HTTP_IS_LANGUAGE or just a wrong guess; the answer is too short to tell. Kept as incorrect.", "questionId": 4, "label": "incorrect", "baselineCorrect": false, "misconceptionCode": null,
       "answer": "HTML." },
     { "id": "r16", "questionId": 4, "label": "misconception", "baselineCorrect": false, "misconceptionCode": "GET_POST_CONFUSION",
       "answer": "POST, because the server posts the data back to you." },

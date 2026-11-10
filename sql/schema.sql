@@ -77,5 +77,6 @@ CREATE TABLE analyses (
   latency_ms            INTEGER,
   input_tokens          INTEGER,
   output_tokens         INTEGER,
+  prompt_version        TEXT,     -- LLM prompt version (v1 | v2)
   created_at            TIMESTAMP NOT NULL DEFAULT NOW()
 );
